@@ -11,6 +11,9 @@ namespace DataLibrary
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        /// <summary>
+        /// The Id used by Discord to identify the user.
+        /// </summary>
         public long Discordid { get; set; }
     }
 }
