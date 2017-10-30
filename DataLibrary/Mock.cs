@@ -15,6 +15,4 @@ namespace DataLibrary
         /// </summary>
         public DbSet<IUser> Users { get; set; }
     }
-
-
 }

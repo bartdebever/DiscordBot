@@ -19,6 +19,6 @@ namespace DataLibrary.Interfaces
         /// <summary>
         /// A region is a server that users play on. This needs to be tracked to get their information back
         /// </summary>
-        //Region Region { get; set; }
+        string Region { get; set; }
     }
 }

@@ -142,10 +142,14 @@
   <ItemGroup>
     <Compile Include="Discord\DiscordRole.cs" />
     <Compile Include="Discord\DiscordServer.cs" />
+    <Compile Include="Interfaces\ICoach.cs" />
+    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IParty.cs" />
     <Compile Include="Interfaces\IRole.cs" />
     <Compile Include="Interfaces\IServer.cs" />
+    <Compile Include="Interfaces\ISummoner.cs" />
     <Compile Include="Interfaces\ITeam.cs" />
+    <Compile Include="Interfaces\ITournament.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Interfaces\IVoteable.cs" />
     <Compile Include="Mock.cs" />
@@ -156,6 +160,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Riot\Riot.csproj">
+      <Project>{c4fd43b5-e285-499d-a4d3-d77f24da0877}</Project>
+      <Name>Riot</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
