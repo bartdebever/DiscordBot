@@ -1,4 +1,6 @@
-﻿namespace DataLibrary.Interfaces
+﻿using System.Collections.Generic;
+
+namespace DataLibrary.Interfaces
 {
     public interface IUser
     {
@@ -11,5 +13,14 @@
         /// Name will not have to be unique and can be anything.
         /// </summary>
         string Name { get; set; }
+        /// <summary>
+        /// Get's a list of summoner the user owns
+        /// </summary>
+        List<ISummoner> Summoners { get; set; }
+        /// <summary>
+        /// Adds a summoner to the list
+        /// </summary>
+        /// <param name="summoner">A verified summoner that the user owns.</param>
+        void AddSummoner(ISummoner summoner);
     }
 }
