@@ -18,6 +18,8 @@ namespace DataLibrary.Interfaces
         long SummonerId { get; set; }
         /// <summary>
         /// A region is a server that users play on. This needs to be tracked to get their information back
+        /// 
+        /// TODO Convert to proper region once that is commited
         /// </summary>
         string Region { get; set; }
     }
