@@ -20,5 +20,12 @@ namespace DataLibrary.Discord.Implemented
         /// The Id used by Discord to identify the user.
         /// </summary>
         public long Discordid { get; set; }
+
+        public DiscordUser(int id, string name, List<ISummoner> list)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Summoners = list;
+        }
     }
 }
