@@ -1,4 +1,6 @@
-﻿namespace DataLibrary.Interfaces
+﻿using DataLibrary.Useraccounts.Interfaces;
+
+namespace DataLibrary.Interfaces
 {
     /// <summary>
     /// A server that a user owns and can be listed

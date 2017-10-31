@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using DataLibrary.Useraccounts.Interfaces;
 
-namespace DataLibrary.Interfaces
+namespace DataLibrary.Matchmaking.Interfaces
 {
     /// <summary>
     /// The Party class is used for the matchmaking system.

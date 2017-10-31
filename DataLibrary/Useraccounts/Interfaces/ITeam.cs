@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace DataLibrary.Interfaces
+namespace DataLibrary.Useraccounts.Interfaces
 {
     /// <summary>
     /// A team a user can be part of.

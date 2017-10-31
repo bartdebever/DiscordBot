@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using IRole = DataLibrary.Interfaces.IRole;
 
-namespace DataLibrary.Discord
+namespace DataLibrary.Discord.Implemented
 {
     /// <summary>
     /// A class used to keep track of the roles that a server has within their Discord

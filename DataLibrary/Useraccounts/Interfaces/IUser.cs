@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using DataLibrary.Interfaces;
 
-namespace DataLibrary.Interfaces
+namespace DataLibrary.Useraccounts.Interfaces
 {
     public interface IUser
     {

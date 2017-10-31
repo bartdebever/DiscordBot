@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DataLibrary.Interfaces;
+using DataLibrary.Useraccounts.Interfaces;
 
-namespace DataLibrary.Discord
+namespace DataLibrary.Discord.Implemented
 {
     public class DiscordServer : IServer, IVoteable
     {

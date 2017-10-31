@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataLibrary.Interfaces
+﻿namespace DataLibrary.Useraccounts.Interfaces
 {
     /// <summary>
     /// A summoner is an account on League of Legends.

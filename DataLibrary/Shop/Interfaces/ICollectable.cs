@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataLibrary.Interfaces;
+using DataLibrary.Useraccounts.Interfaces;
 
-namespace DataLibrary.Interfaces
+namespace DataLibrary.Shop.Interfaces
 {
     /// <summary>
     /// Used for collectable items such as currency or other profile items.

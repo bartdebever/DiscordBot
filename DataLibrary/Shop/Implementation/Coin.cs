@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataLibrary.Exceptions;
-using DataLibrary.Interfaces;
+﻿using DataLibrary.Interfaces;
+using DataLibrary.Shop.Exceptions;
+using DataLibrary.Shop.Interfaces;
+using DataLibrary.Useraccounts.Interfaces;
 
-namespace DataLibrary.Shop
+namespace DataLibrary.Shop.Implementation
 {
     public class Coin : ICollectable
     {
