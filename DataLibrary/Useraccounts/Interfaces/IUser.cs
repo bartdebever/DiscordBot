@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataLibrary.Interfaces;
 
 namespace DataLibrary.Useraccounts.Interfaces
@@ -19,9 +20,14 @@ namespace DataLibrary.Useraccounts.Interfaces
         /// </summary>
         List<ISummoner> Summoners { get; set; }
         /// <summary>
+        /// The date on which the user has joined
+        /// </summary>
+        DateTime CreationDate { get; set; }
+        /// <summary>
         /// Adds a summoner to the list
         /// </summary>
         /// <param name="summoner">A verified summoner that the user owns.</param>
         void AddSummoner(ISummoner summoner);
+        
     }
 }

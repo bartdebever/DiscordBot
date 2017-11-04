@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataLibrary.Useraccounts.Interfaces;
 
 namespace DataLibrary.Discord.Implemented
@@ -8,6 +9,8 @@ namespace DataLibrary.Discord.Implemented
         public int Id { get; set; }
         public string Name { get; set; }
         public List<ISummoner> Summoners { get; set; }
+        public DateTime CreationDate { get; set; }
+
         public void AddSummoner(ISummoner summoner)
         {
             if (!Summoners.Contains(summoner))
@@ -21,11 +24,12 @@ namespace DataLibrary.Discord.Implemented
         /// </summary>
         public long Discordid { get; set; }
 
-        public DiscordUser(int id, string name, List<ISummoner> list)
+        public DiscordUser(int id, string name, List<ISummoner> list, DateTime creationDate)
         {
             this.Id = id;
             this.Name = name;
             this.Summoners = list;
+            this.CreationDate = creationDate;
         }
     }
 }
