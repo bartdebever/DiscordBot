@@ -6,10 +6,12 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using DataLibrary;
+using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
 using Discord.Commands.Builders;
 using Discord.WebSocket;
+using DiscordBot.Loggers;
 using DiscordBot.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,6 +36,19 @@ namespace DiscordBot
 
         private Program()
         {
+            DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Database", "Starting Database Check"));
+            if (DatabaseManager.GetMock() != null)
+            {
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Database", "Success"));
+            }
+            else
+            {
+                DefaultLogger.Logger(
+                    new LogMessage(LogSeverity.Critical, "Database", "Mock database failed to connect"));
+                Console.ReadLine();
+            }
+            DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Starting API Connection Check"));
+            DefaultLogger.Logger(new LogMessage(LogSeverity.Error, "Riot API", "Not implemented"));
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 // How much logging do you want to see?
@@ -50,42 +65,13 @@ namespace DiscordBot
                 //WebSocketProvider = WS4NetProvider.Instance
             });
             // Subscribe the logging handler to both the client and the CommandService.
-            _client.Log += Logger;
-            _commands.Log += Logger;
+            _client.Log += DefaultLogger.Logger;
+            _commands.Log += DefaultLogger.Logger;
         }
 
         // Example of a logging handler. This can be re-used by addons
         // that ask for a Func<LogMessage, Task>.
-        private static Task Logger(LogMessage message)
-        {
-            switch (message.Severity)
-            {
-                case LogSeverity.Critical:
-                case LogSeverity.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case LogSeverity.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case LogSeverity.Info:
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-                case LogSeverity.Verbose:
-                case LogSeverity.Debug:
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    break;
-            }
-            Console.WriteLine($"{DateTime.Now,-19} [{message.Severity,8}] {message.Source}: {message.Message} {message.Exception}");
-            Console.ResetColor();
 
-            // If you get an error saying 'CompletedTask' doesn't exist,
-            // your project is targeting .NET 4.5.2 or lower. You'll need
-            // to adjust your project's target framework to 4.6 or higher
-            // (instructions for this are easily Googled).
-            // If you *need* to run on .NET 4.5 for compat/other reasons,
-            // the alternative is to 'return Task.Delay(0);' instead.
-            return Task.CompletedTask;
-        }
 
         private async Task MainAsync()
         {
@@ -151,7 +137,7 @@ namespace DiscordBot
                 // Execute the command. (result does not indicate a return value, 
                 // rather an object stating if the command executed succesfully).
                 var result = await _commands.ExecuteAsync(context, pos, _services);
-
+                
                 // Uncomment the following lines if you want the bot
                 // to send a message if it failed (not advised for most situations).
                 //if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)

@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects.DataClasses;
 using DataLibrary.Useraccounts.Interfaces;
 
 namespace DataLibrary.Discord.Implemented
@@ -30,6 +34,11 @@ namespace DataLibrary.Discord.Implemented
             this.Name = name;
             this.Summoners = list;
             this.CreationDate = creationDate;
+        }
+
+        public DiscordUser()
+        {
+            
         }
     }
 }
