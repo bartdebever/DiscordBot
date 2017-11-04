@@ -150,6 +150,7 @@
     <Compile Include="Matchmaking\Interfaces\IParty.cs" />
     <Compile Include="Interfaces\IRole.cs" />
     <Compile Include="Discord\Interfaces\IServer.cs" />
+    <Compile Include="Static Data\Names.cs" />
     <Compile Include="Useraccounts\Implementation\APISummoner.cs" />
     <Compile Include="Useraccounts\Interfaces\ISummoner.cs" />
     <Compile Include="Useraccounts\Interfaces\ITeam.cs" />
@@ -160,7 +161,6 @@
     <Compile Include="Discord\Implemented\DiscordUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shop\Implementation\Coin.cs" />
-    <Compile Include="TestModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

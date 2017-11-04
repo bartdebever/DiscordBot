@@ -10,6 +10,7 @@ using Discord;
 using Discord.Commands;
 using Discord.Commands.Builders;
 using Discord.WebSocket;
+using DiscordBot.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DiscordBot
@@ -117,7 +118,8 @@ namespace DiscordBot
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
             // Or add Modules manually if you prefer to be a little more explicit:
             //await _commands.AddModuleAsync<SomeModule>();
-            await _commands.AddModuleAsync<TestModule>();
+            //await _commands.AddModuleAsync<TestModule>();
+            //await _commands.AddModuleAsync<UserModule>();
             // Note that the first one is 'Modules' (plural) and the second is 'Module' (singular).
 
             // Subscribe a handler to see if a message invokes a command.
