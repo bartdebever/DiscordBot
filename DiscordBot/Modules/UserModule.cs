@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
 
@@ -18,12 +19,24 @@ namespace DiscordBot.Modules
             bool registered = false;
             if (string.IsNullOrEmpty(name))
             {
+                
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.Author = new EmbedAuthorBuilder().WithName("Information about " + Context.User.Username).WithIconUrl(Context.User.GetAvatarUrl());
                 eb.WithCurrentTimestamp();
                 //eb.WithUrl("http://placeholder.com/user/id/111020301023");
                 eb.WithColor(Color.Blue);
                 eb.AddField(new EmbedFieldBuilder().WithValue(Context.User.Status).WithName("Status").WithIsInline(false));
+                try
+                {
+                    var user = Context.User as IGuildUser;
+                    eb.AddField(new EmbedFieldBuilder().WithName("Joined " + Context.Guild.Name + " at")
+                        .WithValue(user.JoinedAt.Value.DateTime.ToLongDateString()));
+                }
+                catch 
+                {
+                    //Log User not in guild
+                }
+
                 if (Context.User.Game != null)
                 {
                     eb.AddField(new EmbedFieldBuilder().WithValue(Context.User.Game.Value.Name)
@@ -37,9 +50,9 @@ namespace DiscordBot.Modules
                 {
                     eb.AddField(new EmbedFieldBuilder()
                         .WithValue("User is not registed, use -user register to register now.")
-                        .WithName("PLACEHOLDERNAME Account"));
+                        .WithName(Names.Systemname + " Account"));
                 }
-                eb.Footer = new EmbedFooterBuilder().WithText("DiscordBot || " + DateTime.Now.ToLongDateString()).WithIconUrl(Context.Client.CurrentUser.GetAvatarUrl());
+                eb.Footer = new EmbedFooterBuilder().WithText(Names.BotName + " || " + DateTime.Now.ToLongDateString()).WithIconUrl(Context.Client.CurrentUser.GetAvatarUrl());
                 await ReplyAsync("", embed: eb.Build());
             }
             else await ReplyAsync("Information about " + name);
