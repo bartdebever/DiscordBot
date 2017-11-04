@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using DataLibrary.Interfaces;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using IUser = Discord.IUser;
 
-namespace DataLibrary
+namespace DiscordBot.Modules
 {
     [Group("Test")]
     public class TestModule : ModuleBase
