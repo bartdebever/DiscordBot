@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataLibrary.Discord.Implemented;
 using DataLibrary.Useraccounts.Implementation;
 using DataLibrary.Useraccounts.Interfaces;
@@ -15,7 +16,7 @@ namespace UnitTests.DataLibrary_Tests
         public void Initialize()
         {
             summoners = new List<ISummoner>();
-            user = new DiscordUser(0, "Bort", summoners);
+            user = new DiscordUser(0, "Bort", summoners, DateTime.Now);
     }
 
         [TestMethod]
@@ -24,7 +25,7 @@ namespace UnitTests.DataLibrary_Tests
             Assert.AreEqual("Bort", user.Name, "Name not saved correctly");
             Assert.AreEqual(0, user.Id, "Id not saved correctly");
             Assert.AreEqual(summoners, user.Summoners, "List not saved correctly");
-            Assert.AreEqual(0, user.Summoners.Count, "Summoner list already contains items");
+            Assert.AreEqual(0, user.Summoners.Count, "Summoners list already contains items");
         }
 
         [TestMethod]
@@ -33,8 +34,8 @@ namespace UnitTests.DataLibrary_Tests
             ISummoner summoner = new APISummoner(0, "euw");
             Assert.AreEqual(0, user.Summoners.Count, "List already contains summoners");
             user.AddSummoner(summoner);
-            Assert.AreEqual(1, user.Summoners.Count, "Summoner not properly added");
-            Assert.AreEqual(0, user.Summoners[0].SummonerId, "Summoner Id incorrectly saved in list.");
+            Assert.AreEqual(1, user.Summoners.Count, "Summoners not properly added");
+            Assert.AreEqual(0, user.Summoners[0].SummonerId, "Summoners Id incorrectly saved in list.");
             Assert.AreEqual("euw", user.Summoners[0].Region, "Region incorrectly saved in list.");
         }
     }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Core.Objects.DataClasses;
 using DataLibrary.Interfaces;
 
 namespace DataLibrary.Useraccounts.Interfaces
-{
+{ 
     public interface IUser
     {
         /// <summary>
