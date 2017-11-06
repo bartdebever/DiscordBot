@@ -80,6 +80,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
@@ -152,6 +153,7 @@
     <Compile Include="Discord\Interfaces\IServer.cs" />
     <Compile Include="Static Data\DatabaseManager..cs" />
     <Compile Include="Static Data\Names.cs" />
+    <Compile Include="Static Data\OptionManager.cs" />
     <Compile Include="Useraccounts\Implementation\APISummoner.cs" />
     <Compile Include="Useraccounts\Interfaces\ISummoner.cs" />
     <Compile Include="Useraccounts\Interfaces\ITeam.cs" />
@@ -164,7 +166,10 @@
     <Compile Include="Shop\Implementation\Coin.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Authentication.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using DataLibrary.Discord.Implemented;
-using DataLibrary.Useraccounts.Interfaces;
 
 namespace DataLibrary
 {

@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
-using DataLibrary;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
-using Discord.Commands.Builders;
 using Discord.WebSocket;
 using DiscordBot.Loggers;
-using DiscordBot.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DiscordBot
@@ -22,19 +15,15 @@ namespace DiscordBot
         // Program entry point
         static void Main(string[] args)
         {
+            Tests();
+                Console.WriteLine(OptionManager.DiscordKey);
+
+
             // Call the Program constructor, followed by the 
             // MainAsync method and wait until it finishes (which should be never).
             new Program().MainAsync().GetAwaiter().GetResult();
         }
-
-        private readonly DiscordSocketClient _client;
-
-        // Keep the CommandService and IServiceCollection around for use with commands.
-        // These two types require you install the Discord.Net.Commands package.
-        private readonly IServiceCollection _map = new ServiceCollection();
-        private readonly CommandService _commands = new CommandService();
-
-        private Program()
+        private static void Tests()
         {
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Database", "Starting Database Check"));
             if (DatabaseManager.GetMock() != null)
@@ -49,6 +38,17 @@ namespace DiscordBot
             }
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Starting API Connection Check"));
             DefaultLogger.Logger(new LogMessage(LogSeverity.Error, "Riot API", "Not implemented"));
+        }
+
+        private readonly DiscordSocketClient _client;
+
+        // Keep the CommandService and IServiceCollection around for use with commands.
+        // These two types require you install the Discord.Net.Commands package.
+        private readonly IServiceCollection _map = new ServiceCollection();
+        private readonly CommandService _commands = new CommandService();
+
+        private Program()
+        {
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 // How much logging do you want to see?
@@ -79,7 +79,7 @@ namespace DiscordBot
             await InitCommands();
 
             // Login and connect.
-            await _client.LoginAsync(TokenType.Bot, "MTgzMjgzMTM1MDI5NTc1Njgw.DNXRSA.2pif1gy9Omx0SRZqusGSbvzSiYw");
+            await _client.LoginAsync(TokenType.Bot, OptionManager.DiscordKey);
             await _client.StartAsync();
 
             // Wait infinitely so your bot actually stays connected.
