@@ -40,7 +40,8 @@ namespace DataLibrary.Static_Data
         }
         public static void Initialize()
         {
-            using (StreamReader file = new StreamReader(@"C:\Users\Bort\source\repos\DiscordBot\DataLibrary\Configuration.json")) //TODO Make dynamic
+            using (StreamReader file = new StreamReader(@"C:\Users\Bort\source\repos\DiscordBot\DataLibrary\Configuration.json")) 
+            //TODO Make dynamic
             using (JsonTextReader reader = new JsonTextReader(file))
             {
                 JObject ob = (JObject)JToken.ReadFrom(reader);

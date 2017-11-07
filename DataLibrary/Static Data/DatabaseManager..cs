@@ -9,11 +9,11 @@ namespace DataLibrary.Static_Data
 {
     public static class DatabaseManager
     {
-        static Mock mock = new Mock();
+        private static readonly Mock Mock = new Mock();
 
         public static Mock GetMock()
         {
-            return mock;
+            return Mock;
         } 
     }
 }

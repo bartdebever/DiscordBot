@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DataLibrary;
 using DataLibrary.Discord.Implemented;
+using DataLibrary.Interfaces;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using IUser = DataLibrary.Useraccounts.Interfaces.IUser;
 
 namespace DiscordBot.EmbedBuilder
@@ -33,9 +35,9 @@ namespace DiscordBot.EmbedBuilder
             if (registered)
             {
                 eb.Description = "Displaying user information for the " + Names.Systemname + " account";
-                eb.AddField(new EmbedFieldBuilder().WithName("Name").WithValue(atlasAccount.Name));
-                eb.AddField(new EmbedFieldBuilder().WithName("Account created")
-                    .WithValue(atlasAccount.CreationDate.ToLongDateString()));
+                eb.AddField(new EmbedFieldBuilder().WithName(Names.Systemname + " Information").WithValue(
+                    "**Name:** " + atlasAccount.Name + "\n"+
+                    "**Account created:** " + atlasAccount.CreationDate.ToLongDateString()));
             }
             else
             {
@@ -68,6 +70,53 @@ namespace DiscordBot.EmbedBuilder
             eb.WithThumbnailUrl(Context.User.GetAvatarUrl());
             eb.Footer = new EmbedFooterBuilder().WithText(Names.BotName).WithIconUrl(Context.Client.CurrentUser.GetAvatarUrl());
             return eb.Build();
+        }
+
+        public static Embed CurrentServerEmbed(IGuild guild)
+        {
+            DiscordServer server;
+            var database = DatabaseManager.GetMock();
+            try
+            {
+                server = database.Servers.FirstOrDefault(x => x.ServerId == (long) guild.Id);
+            }
+            catch
+            {
+                server = null;
+            }
+            
+            Discord.EmbedBuilder builder = new Discord.EmbedBuilder();
+            try
+            {
+                builder.ThumbnailUrl = guild.IconUrl;
+            }
+            catch
+            {
+                //Server does not have an icon.
+            }
+            builder.Author = new EmbedAuthorBuilder().WithName(guild.Name);
+            builder.Description = "Information about this server known to " + Names.BotName;
+            builder.AddField(new EmbedFieldBuilder().WithName("Discord Information")
+                .WithValue("**Name:** " + guild.Name + "\n"
+                           + "**Users:** " + (guild as SocketGuild).Users.Count + "\n"
+                           + "**Created at:** " + guild.CreatedAt.DateTime.ToLongDateString() + "\n"
+                           + "**Owner:** " + guild.GetOwnerAsync().Result.Username));
+            if (server == null)
+            {
+                builder.AddField(new EmbedFieldBuilder().WithName(Names.Systemname + " Information")
+                    .WithValue(
+                        "Server is not linked to an account. Let the owner use -server register *<name>* to start"));
+            }
+            else
+            {
+                builder.AddField(new EmbedFieldBuilder().WithName(Names.Systemname + " Information").WithValue(
+                    "**Name: **" + server.Name+"\n"+
+                    "**Description: **"+ server.Description+"\n"+
+                    "**Joined at: **" + server.JoinDateTime.ToLongDateString()));
+            }
+            builder.WithColor(Color.Blue);
+            builder.WithCurrentTimestamp();
+            return builder.Build();
         }
     }
 }

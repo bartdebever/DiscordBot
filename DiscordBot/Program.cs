@@ -6,6 +6,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot.Loggers;
+using DiscordBot.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DiscordBot
@@ -34,6 +35,18 @@ namespace DiscordBot
             {
                 DefaultLogger.Logger(
                     new LogMessage(LogSeverity.Critical, "Database", "Mock database failed to connect"));
+                Console.ReadLine();
+            }
+            DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Configuration", "Checking Configuration.json file"));
+            try
+            {
+                string t = OptionManager.DiscordKey; //Write proper test later
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Configuration", "Configuration verified"));
+            }
+            catch
+            {
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Critical, "Configuration",
+                    "Failed to use configuration file"));
                 Console.ReadLine();
             }
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Starting API Connection Check"));
@@ -106,6 +119,7 @@ namespace DiscordBot
             //await _commands.AddModuleAsync<SomeModule>();
             //await _commands.AddModuleAsync<TestModule>();
             //await _commands.AddModuleAsync<UserModule>();
+            //await _commands.AddModuleAsync<ServerModule>();
             // Note that the first one is 'Modules' (plural) and the second is 'Module' (singular).
 
             // Subscribe a handler to see if a message invokes a command.

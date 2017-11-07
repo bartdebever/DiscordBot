@@ -169,7 +169,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Authentication.json" />
+    <None Include="Configuration.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
