@@ -25,14 +25,14 @@ namespace DiscordBot.EmbedBuilder
             {
                 atlasAccount =
                     database.Users.FirstOrDefault(x => (x as DiscordUser).Discordid == (long)Context.User.Id);
-                registered = true;
+                
             }
             catch
             {
                 //Log user not registed
             }
             Discord.EmbedBuilder eb = new Discord.EmbedBuilder();
-            if (registered)
+            if (atlasAccount != null)
             {
                 eb.Description = "Displaying user information for the " + Names.Systemname + " account";
                 eb.AddField(new EmbedFieldBuilder().WithName(Names.Systemname + " Information").WithValue(
@@ -50,23 +50,23 @@ namespace DiscordBot.EmbedBuilder
             eb.WithCurrentTimestamp();
             //eb.WithUrl("http://placeholder.com/user/id/111020301023");
             eb.WithColor(Color.Blue);
+            string discordInformation = "";
             try
             {
                 var user = Context.User as IGuildUser;
-                eb.AddField(new EmbedFieldBuilder().WithName("Joined " + Context.Guild.Name + " at")
-                    .WithValue(user.JoinedAt.Value.DateTime.ToLongDateString()));
+                discordInformation += "**Joined at: **" + user.JoinedAt.Value.Date.ToLongDateString() + "\n";
             }
             catch
             {
                 //Log User not in guild
             }
-            eb.AddField(new EmbedFieldBuilder().WithValue(Context.User.Status).WithName("Status").WithIsInline(false));
+            discordInformation += "**Status:** " + Context.User.Status + "\n";
+
             if (Context.User.Game != null)
             {
-                eb.AddField(new EmbedFieldBuilder().WithValue(Context.User.Game.Value.Name)
-                    .WithName("Currently Playing"));
+                discordInformation += "**Currently Playing: **" + Context.User.Game.Value.Name + "\n";
             }
-
+            eb.AddField(new EmbedFieldBuilder().WithName("Discord information").WithValue(discordInformation));
             eb.WithThumbnailUrl(Context.User.GetAvatarUrl());
             eb.Footer = new EmbedFooterBuilder().WithText(Names.BotName).WithIconUrl(Context.Client.CurrentUser.GetAvatarUrl());
             return eb.Build();
