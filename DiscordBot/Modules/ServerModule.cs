@@ -42,5 +42,12 @@ namespace DiscordBot.Modules
             await ReplyAsync("Server has been saved, use -server to view its information");
 
         }
+
+        [Command("list")]
+        [Summary("Gives an ordered list of all the servers known to AtlasBot")]
+        public async Task List([Optional, Summary("The name to be filtered by")] string filter)
+        {
+            await ReplyAsync("", embed: Builders.ServerList(filter));
+        }
     }
 }

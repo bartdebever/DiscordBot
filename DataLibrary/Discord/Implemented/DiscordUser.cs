@@ -34,7 +34,7 @@ namespace DataLibrary.Discord.Implemented
 
         public DiscordUser()
         {
-            
+            this.Summoners = new List<ISummoner>();
         }
     }
 }

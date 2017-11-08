@@ -67,6 +67,23 @@ namespace DiscordBot.EmbedBuilder
                 discordInformation += "**Currently Playing: **" + Context.User.Game.Value.Name + "\n";
             }
             eb.AddField(new EmbedFieldBuilder().WithName("Discord information").WithValue(discordInformation));
+            if (atlasAccount != null)
+            {
+                if (atlasAccount.Summoners.Count > 0)
+                {
+                    string summoners = "";
+                    foreach (var summoner in atlasAccount.Summoners)
+                    {
+                        summoners += summoner.Region + ": " + summoner.SummonerId; //TODO Make this a name
+                    }
+                    eb.AddField(new EmbedFieldBuilder().WithName("Summoner Information").WithValue(summoners));
+                }
+                else
+                {
+                    eb.AddField(new EmbedFieldBuilder().WithName("Summoner Information")
+                        .WithValue("This user has no summoners."));
+                }
+            }
             eb.WithThumbnailUrl(Context.User.GetAvatarUrl());
             eb.Footer = new EmbedFooterBuilder().WithText(Names.BotName).WithIconUrl(Context.Client.CurrentUser.GetAvatarUrl());
             return eb.Build();
@@ -112,10 +129,39 @@ namespace DiscordBot.EmbedBuilder
                 builder.AddField(new EmbedFieldBuilder().WithName(Names.Systemname + " Information").WithValue(
                     "**Name: **" + server.Name+"\n"+
                     "**Description: **"+ server.Description+"\n"+
-                    "**Joined at: **" + server.JoinDateTime.ToLongDateString()));
+                    "**Joined at: **" + server.JoinDateTime.ToLongDateString()+"\n"+
+                    "**Votes: **" + server.Votes));
             }
             builder.WithColor(Color.Blue);
+            builder.WithFooter(Names.BotName);
             builder.WithCurrentTimestamp();
+            return builder.Build();
+        }
+
+        public static Embed ServerList(string filter)
+        {
+            Discord.EmbedBuilder builder = new Discord.EmbedBuilder();
+            builder.WithFooter(Names.BotName);
+            builder.WithCurrentTimestamp();
+            builder.Author = new EmbedAuthorBuilder().WithName(Names.Systemname + " server list");
+            builder.WithColor(Color.Blue);
+            if (string.IsNullOrEmpty(filter)) //No parameter is given and we should display the full server list
+            {
+                builder.Description = "All servers known ordered by votes.";
+                List<DiscordServer> servers = DatabaseManager.GetMock().Servers.ToList();
+                //Add servers from other sources
+                var orderedServers = servers.OrderBy(x => x.Votes).ToList();
+                int maxservers = 5; //Maximal servers to display
+                if (maxservers > orderedServers.Count()) maxservers = orderedServers.Count;
+
+                for (int i = 0; i < maxservers; i++)
+                {
+
+                    builder.AddField(new EmbedFieldBuilder().WithName(orderedServers[i].Name)
+                        .WithValue("**Votes:** " + orderedServers[i].Votes + "\n" +
+                                   "**Description: **" + orderedServers[i].Description));
+                }
+            }
             return builder.Build();
         }
     }
