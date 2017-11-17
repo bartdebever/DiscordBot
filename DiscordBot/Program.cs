@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
-using DataLibrary;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
-using Discord.Commands.Builders;
 using Discord.WebSocket;
 using DiscordBot.Loggers;
 using DiscordBot.Modules;
@@ -22,19 +16,15 @@ namespace DiscordBot
         // Program entry point
         static void Main(string[] args)
         {
+            Tests();
+                Console.WriteLine(OptionManager.DiscordKey);
+
+
             // Call the Program constructor, followed by the 
             // MainAsync method and wait until it finishes (which should be never).
             new Program().MainAsync().GetAwaiter().GetResult();
         }
-
-        private readonly DiscordSocketClient _client;
-
-        // Keep the CommandService and IServiceCollection around for use with commands.
-        // These two types require you install the Discord.Net.Commands package.
-        private readonly IServiceCollection _map = new ServiceCollection();
-        private readonly CommandService _commands = new CommandService();
-
-        private Program()
+        private static void Tests()
         {
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Database", "Starting Database Check"));
             if (DatabaseManager.GetMock() != null)
@@ -47,8 +37,31 @@ namespace DiscordBot
                     new LogMessage(LogSeverity.Critical, "Database", "Mock database failed to connect"));
                 Console.ReadLine();
             }
+            DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Configuration", "Checking Configuration.json file"));
+            try
+            {
+                string t = OptionManager.DiscordKey; //Write proper test later
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Configuration", "Configuration verified"));
+            }
+            catch
+            {
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Critical, "Configuration",
+                    "Failed to use configuration file"));
+                Console.ReadLine();
+            }
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Starting API Connection Check"));
             DefaultLogger.Logger(new LogMessage(LogSeverity.Error, "Riot API", "Not implemented"));
+        }
+
+        private readonly DiscordSocketClient _client;
+
+        // Keep the CommandService and IServiceCollection around for use with commands.
+        // These two types require you install the Discord.Net.Commands package.
+        private readonly IServiceCollection _map = new ServiceCollection();
+        private readonly CommandService _commands = new CommandService();
+
+        private Program()
+        {
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 // How much logging do you want to see?
@@ -79,7 +92,7 @@ namespace DiscordBot
             await InitCommands();
 
             // Login and connect.
-            await _client.LoginAsync(TokenType.Bot, "MTgzMjgzMTM1MDI5NTc1Njgw.DNXRSA.2pif1gy9Omx0SRZqusGSbvzSiYw");
+            await _client.LoginAsync(TokenType.Bot, OptionManager.DiscordKey);
             await _client.StartAsync();
 
             // Wait infinitely so your bot actually stays connected.
@@ -106,6 +119,7 @@ namespace DiscordBot
             //await _commands.AddModuleAsync<SomeModule>();
             //await _commands.AddModuleAsync<TestModule>();
             //await _commands.AddModuleAsync<UserModule>();
+            //await _commands.AddModuleAsync<ServerModule>();
             // Note that the first one is 'Modules' (plural) and the second is 'Module' (singular).
 
             // Subscribe a handler to see if a message invokes a command.

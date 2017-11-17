@@ -4,6 +4,7 @@ namespace DataLibrary.Useraccounts.Implementation
 {
     public class APISummoner : ISummoner
     {
+        public int Id { get; set; }
         public long SummonerId { get; set; }
         public string Region { get; set; }
 
@@ -11,6 +12,13 @@ namespace DataLibrary.Useraccounts.Implementation
         {
             this.SummonerId = summonerId;
             this.Region = region;
+        }
+
+        public APISummoner(int id, long summonerId, string region)
+        {
+            this.SummonerId = summonerId;
+            this.Region = region;
+            this.Id = id;
         }
     }
 }

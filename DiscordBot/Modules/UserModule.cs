@@ -40,8 +40,8 @@ namespace DiscordBot.Modules
             {
                     if (database.Users.FirstOrDefault(x => x.Discordid == (long) Context.User.Id) == null)
                     {
-                        var user = database.Users.Add(new DiscordUser(0, Context.User.Username, new List<ISummoner>(),
-                            DateTime.Now)); //TODO Generate Id
+                        var user = database.Users.Add(new DiscordUser(DatabaseManager.UserKeyGenerator(), Context.User.Username, new List<ISummoner>(),
+                            DateTime.Now));
                         user.Discordid = (long) Context.User.Id;
                         database.SaveChanges();
                     }
