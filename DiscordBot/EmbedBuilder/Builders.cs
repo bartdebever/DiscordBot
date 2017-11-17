@@ -31,7 +31,9 @@ namespace DiscordBot.EmbedBuilder
             {
                 //Log user not registed
             }
-            Discord.EmbedBuilder eb = new Discord.EmbedBuilder();
+            Discord.EmbedBuilder eb = BaseBuilder("", "", ColorsPick.UserModule,
+                new EmbedAuthorBuilder().WithName("Information about " + Context.User.Username),
+                Context.User.GetAvatarUrl());
             if (atlasAccount != null)
             {
                 eb.Description = "Displaying user information for the " + Names.Systemname + " account";
@@ -45,11 +47,7 @@ namespace DiscordBot.EmbedBuilder
                     .WithValue("User is not registed, use -user register to register now.")
                     .WithName(Names.Systemname + " Account"));
             }
-            eb.Author = new EmbedAuthorBuilder().WithName("Information about " + Context.User.Username);
-            //eb.WithTitle("Information about " + Context.User.Username);
-            eb.WithCurrentTimestamp();
             //eb.WithUrl("http://placeholder.com/user/id/111020301023");
-            eb.WithColor(Color.Blue);
             string discordInformation = "";
             try
             {
@@ -84,8 +82,6 @@ namespace DiscordBot.EmbedBuilder
                         .WithValue("This user has no summoners."));
                 }
             }
-            eb.WithThumbnailUrl(Context.User.GetAvatarUrl());
-            eb.Footer = new EmbedFooterBuilder().WithText(Names.BotName).WithIconUrl(Context.Client.CurrentUser.GetAvatarUrl());
             return eb.Build();
         }
 
@@ -102,17 +98,7 @@ namespace DiscordBot.EmbedBuilder
                 server = null;
             }
             
-            Discord.EmbedBuilder builder = new Discord.EmbedBuilder();
-            try
-            {
-                builder.ThumbnailUrl = guild.IconUrl;
-            }
-            catch
-            {
-                //Server does not have an icon.
-            }
-            builder.Author = new EmbedAuthorBuilder().WithName(guild.Name);
-            builder.Description = "Information about this server known to " + Names.BotName;
+            Discord.EmbedBuilder builder = BaseBuilder("", "Information about this server known to " + Names.BotName, ColorsPick.ServerModule, new EmbedAuthorBuilder().WithName(guild.Name), guild.IconUrl);
             builder.AddField(new EmbedFieldBuilder().WithName("Discord Information")
                 .WithValue("**Name:** " + guild.Name + "\n"
                            + "**Users:** " + (guild as SocketGuild).Users.Count + "\n"
@@ -132,22 +118,14 @@ namespace DiscordBot.EmbedBuilder
                     "**Joined at: **" + server.JoinDateTime.ToLongDateString()+"\n"+
                     "**Votes: **" + server.Votes));
             }
-            builder.WithColor(Color.Blue);
-            builder.WithFooter(Names.BotName);
-            builder.WithCurrentTimestamp();
             return builder.Build();
         }
 
         public static Embed ServerList(string filter)
         {
-            Discord.EmbedBuilder builder = new Discord.EmbedBuilder();
-            builder.WithFooter(Names.BotName);
-            builder.WithCurrentTimestamp();
-            builder.Author = new EmbedAuthorBuilder().WithName(Names.Systemname + " server list");
-            builder.WithColor(Color.Blue);
+            Discord.EmbedBuilder builder = BaseBuilder("", "All servers known ordered by votes.", ColorsPick.ServerModule, new EmbedAuthorBuilder().WithName(Names.Systemname + " server list"), null);
             if (string.IsNullOrEmpty(filter)) //No parameter is given and we should display the full server list
             {
-                builder.Description = "All servers known ordered by votes.";
                 List<DiscordServer> servers = DatabaseManager.GetMock().Servers.ToList();
                 //Add servers from other sources
                 var orderedServers = servers.OrderBy(x => x.Votes).ToList();
@@ -163,6 +141,28 @@ namespace DiscordBot.EmbedBuilder
                 }
             }
             return builder.Build();
+        }
+        //Base Builder
+        public static Discord.EmbedBuilder BaseBuilder(string title, string description, Color color,
+            EmbedAuthorBuilder authorBuilder, string thumbnailurl)
+        {
+            Discord.EmbedBuilder builder = new Discord.EmbedBuilder().WithColor(color).WithFooter(Names.BotName).WithCurrentTimestamp();
+            if (!string.IsNullOrEmpty(description)) builder.WithDescription(description);
+            if (!string.IsNullOrEmpty(title)) builder.WithTitle(title);
+            if (authorBuilder != null) builder.WithAuthor(authorBuilder);
+            if (!string.IsNullOrEmpty(thumbnailurl)) builder.WithThumbnailUrl(thumbnailurl);
+            return builder;
+        }
+        //Failed Response
+        public static Discord.EmbedBuilder ErrorBuilder(Exception exception)
+        {
+            Discord.EmbedBuilder builder = BaseBuilder("", "Well this is awkward, I made a mistake", ColorsPick.FailedResponse,
+                new EmbedAuthorBuilder().WithName("ERROR"), null);
+            builder.AddField(new EmbedFieldBuilder().WithName("**Error details**").WithValue(exception.Message));
+            builder.AddField(new EmbedFieldBuilder().WithName("Do not worry!")
+                .WithValue("This error has already been sent to Bort, he will work on this soon I promise!"));
+            //TODO ErrorHandler.SendErrorBort(exception);
+            return builder;
         }
     }
 }
