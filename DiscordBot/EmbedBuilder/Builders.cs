@@ -31,7 +31,7 @@ namespace DiscordBot.EmbedBuilder
             {
                 //Log user not registed
             }
-            Discord.EmbedBuilder eb = BaseBuilder("", "", ColorsPick.UserModule,
+            Discord.EmbedBuilder eb = BaseBuilder("", "", ColorPicker.UserModule,
                 new EmbedAuthorBuilder().WithName("Information about " + Context.User.Username),
                 Context.User.GetAvatarUrl());
             if (atlasAccount != null)
@@ -98,7 +98,7 @@ namespace DiscordBot.EmbedBuilder
                 server = null;
             }
             
-            Discord.EmbedBuilder builder = BaseBuilder("", "Information about this server known to " + Names.BotName, ColorsPick.ServerModule, new EmbedAuthorBuilder().WithName(guild.Name), guild.IconUrl);
+            Discord.EmbedBuilder builder = BaseBuilder("", "Information about this server known to " + Names.BotName, ColorPicker.ServerModule, new EmbedAuthorBuilder().WithName(guild.Name), guild.IconUrl);
             builder.AddField(new EmbedFieldBuilder().WithName("Discord Information")
                 .WithValue("**Name:** " + guild.Name + "\n"
                            + "**Users:** " + (guild as SocketGuild).Users.Count + "\n"
@@ -123,7 +123,7 @@ namespace DiscordBot.EmbedBuilder
 
         public static Embed ServerList(string filter)
         {
-            Discord.EmbedBuilder builder = BaseBuilder("", "All servers known ordered by votes.", ColorsPick.ServerModule, new EmbedAuthorBuilder().WithName(Names.Systemname + " server list"), null);
+            Discord.EmbedBuilder builder = BaseBuilder("", "All servers known ordered by votes.", ColorPicker.ServerModule, new EmbedAuthorBuilder().WithName(Names.Systemname + " server list"), null);
             if (string.IsNullOrEmpty(filter)) //No parameter is given and we should display the full server list
             {
                 List<DiscordServer> servers = DatabaseManager.GetMock().Servers.ToList();
@@ -156,7 +156,7 @@ namespace DiscordBot.EmbedBuilder
         //Failed Response
         public static Discord.EmbedBuilder ErrorBuilder(Exception exception)
         {
-            Discord.EmbedBuilder builder = BaseBuilder("", "Well this is awkward, I made a mistake", ColorsPick.FailedResponse,
+            Discord.EmbedBuilder builder = BaseBuilder("", "Well this is awkward, I made a mistake", ColorPicker.FailedResponse,
                 new EmbedAuthorBuilder().WithName("ERROR"), null);
             builder.AddField(new EmbedFieldBuilder().WithName("**Error details**").WithValue(exception.Message));
             builder.AddField(new EmbedFieldBuilder().WithName("Do not worry!")
