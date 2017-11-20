@@ -28,7 +28,7 @@ namespace DiscordBot.EmbedBuilder
             CookieContainer cookieContainer = new CookieContainer();
             Uri uri = new Uri("http://www.smashladder.com");
             Cookie cookie =
-                new Cookie("lad_sock_hash", "HASH HERE", "/", "www.smashladder.com")
+                new Cookie("lad_sock_hash", "", "/", "www.smashladder.com")
                 {
                     Expires = new DateTime(2033, 05, 18, 03, 33, 22)
                 };
@@ -36,7 +36,7 @@ namespace DiscordBot.EmbedBuilder
             cookieContainer.Add(uri, new Cookie("lad_sock_user_id", "78787", "/", "www.smashladder.com"));
             cookieContainer.Add(uri, new Cookie("lad_sock_remember_me", "bartdebever112%40outlook.com", "/", "www.smashladder.com"));
             HttpWebRequest webRequest =
-                (HttpWebRequest) HttpWebRequest.Create("http://www.smashladder.com/matchmaking/user?username=" + username);
+                (HttpWebRequest)HttpWebRequest.Create("http://www.smashladder.com/matchmaking/user?username=" + username);
             webRequest.CookieContainer = cookieContainer;
             webRequest.Method = "GET";
             string result;
@@ -48,10 +48,10 @@ namespace DiscordBot.EmbedBuilder
             RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
             User user = root.user;
 
-                Discord.EmbedBuilder builder = Builders.BaseBuilder("Link to " + Names.SmashLadder + " Profile", "All information known about **" + username + "**",
-                    ColorPicker.SmashModule,
-                    new EmbedAuthorBuilder().WithName(Names.SmashLadder)
-                        .WithUrl("http://www.smashladder.com"), "");
+            Discord.EmbedBuilder builder = Builders.BaseBuilder("Link to " + Names.SmashLadder + " Profile", "All information known about **" + username + "**",
+                ColorPicker.SmashModule,
+                new EmbedAuthorBuilder().WithName(Names.SmashLadder)
+                    .WithUrl("http://www.smashladder.com"), "");
             builder.WithThumbnailUrl("https://www.smashladder.com/images/subhypepikachu-logo.png");
             if (user.selected_flair != null)
             {
@@ -60,27 +60,27 @@ namespace DiscordBot.EmbedBuilder
             }
             builder.AddField(new EmbedFieldBuilder().WithName("Profile").WithValue(
                 "**Name: **" + user.username + "\n" +
-                "**Member Since: **" + user.member_since.full+"\n"+
-                "**Location: **"+ user.location.locality + ", "  +user.location.country_state+"\n"+
-                "**Status: **" + user.away_message + "\n"+
+                "**Member Since: **" + user.member_since.full.ToLongDateString() + "\n" +
+                "**Location: **" + user.location.locality + ", " + user.location.country_state + "\n" +
+                "**Status: **" + user.away_message + "\n" +
                 "**Total matches played: **" + user.total_matches_played));
-            if (user.ladder_information.__invalid_name__2 != null)
+            if (user.ladder_information.Melee != null)
             {
-                var melee = user.ladder_information.__invalid_name__2;
+                var melee = user.ladder_information.Melee;
                 int characters = 3;
                 string charactersinfo = "";
                 if (melee.characters.Count < 3) characters = melee.characters.Count;
-                for(int i = 0; i<characters; i++)
+                for (int i = 0; i < characters; i++)
                 {
                     charactersinfo += "**  " + melee.characters[i].name + ": **" + melee.characters[i].percent + "%" + "\n";
                 }
-                builder.AddField(new EmbedFieldBuilder().WithName(user.ladder_information.__invalid_name__2.name)
+                builder.AddField(new EmbedFieldBuilder().WithName(user.ladder_information.Melee.name)
                     .WithValue(
                         "**Total games played: **" + melee.league.stats.ranked_played + "\n" +
                         "**Rank: **" + melee.league.name + " " + melee.league.division + "\n" +
                         "**Character info:** displayed as Name: percentage played \n" + charactersinfo));
             }
-            
+
             builder.WithUrl(user.profile_url);
             //General information
 
@@ -124,7 +124,7 @@ namespace DiscordBot.EmbedBuilder
             //    matches));
             return builder;
         }
-        
+
     }
 
     public class Match
@@ -163,14 +163,14 @@ namespace DiscordBot.EmbedBuilder
     {
         public double rating { get; set; }
         public int bonus_pool_used { get; set; }
-        public int id { get; set; }
+        public int? id { get; set; }
     }
 
     public class Stats
     {
-        public int ranked_played { get; set; }
-        public int total_friendlies_played { get; set; }
-        public int unique_opponents { get; set; }
+        public int? ranked_played { get; set; }
+        public int? total_friendlies_played { get; set; }
+        public int? unique_opponents { get; set; }
     }
 
     public class StartDate
@@ -226,7 +226,7 @@ namespace DiscordBot.EmbedBuilder
         public int ladder_id { get; set; }
     }
 
-    public class __invalid_type__2
+    public class Game
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -296,66 +296,82 @@ namespace DiscordBot.EmbedBuilder
         public string value { get; set; }
         public int type { get; set; }
     }
-public class __invalid_type__4
-{
-    public int id { get; set; }
-    public string name { get; set; }
-    public int order { get; set; }
-    public string image_url { get; set; }
-    public League2 league { get; set; }
-    public List<Character> characters { get; set; }
-}
+    public class __invalid_type__4
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public int order { get; set; }
+        public string image_url { get; set; }
+        public League2 league { get; set; }
+        public List<Character> characters { get; set; }
+    }
 
     public class Character
     {
         public string name { get; set; }
         public int percent { get; set; }
     }
-public class LadderInformation
-{
-    [JsonProperty(PropertyName = "2")]
-    public __invalid_type__2 __invalid_name__2 { get; set; }
-    [JsonProperty(PropertyName = "4")]
-    public __invalid_type__4 __invalid_name__4 { get; set; }
-}
+    public class LadderInformation
+    {
+        [JsonProperty(PropertyName = "1")]
+        public Game ProjectM { get; set; }
+        [JsonProperty(PropertyName = "2")]
+        public Game Melee { get; set; }
+        [JsonProperty(PropertyName = "3")]
+        public Game Smash3DS { get; set; }
+        [JsonProperty(PropertyName = "4")]
+        public Game Smash4Wiiu { get; set; }
+        [JsonProperty(PropertyName = "5")]
+        public Game Smash64 { get; set; }
+        [JsonProperty(PropertyName = "6")]
+        public Game Brawl { get; set; }
+        [JsonProperty(PropertyName = "7")]
+        public Game SFF2 { get; set; }
+        [JsonProperty(PropertyName = "8")]
+        public Game RPS { get; set; }
+        [JsonProperty(PropertyName = "10")]
+        public Game ProjectMWifi { get; set; }
+        [JsonProperty(PropertyName = "11")]
+        public Game BrawlWifi { get; set; }
+    }
 
-public class MemberSince
-{
-    public int timestamp { get; set; }
-    public string courtesy { get; set; }
-    public string full { get; set; }
-}
+    public class MemberSince
+    {
+        public int timestamp { get; set; }
+        public string courtesy { get; set; }
+        public DateTime full { get; set; }
+    }
 
-public class User
-{
-    public object display_name { get; set; }
-    public object max_tier_achievement { get; set; }
-    public Location location { get; set; }
-    public object is_subscribed { get; set; }
-    public int id { get; set; }
-    public string username { get; set; }
-    public selected_flair selected_flair { get; set; }
-    public object glow_color { get; set; }
-    public bool is_admin { get; set; }
-    public bool is_mod { get; set; }
-    public string away_message { get; set; }
-    public bool is_playing { get; set; }
-    public bool is_online { get; set; }
-    public string profile_url { get; set; }
-    public string username_css_classes { get; set; }
-    public List<object> reported_match_behavior { get; set; }
-    public string local_time { get; set; }
-    public LadderInformation ladder_information { get; set; }
-    public int total_matches_played { get; set; }
-    public int wins { get; set; }
-    public int losses { get; set; }
-    public List<object> notes { get; set; }
-    public int is_ignored { get; set; }
-    public int is_friend { get; set; }
-    public bool has_dolphin_launcher { get; set; }
-    public int subscription_streak { get; set; }
-    public MemberSince member_since { get; set; }
-}
+    public class User
+    {
+        public object display_name { get; set; }
+        public object max_tier_achievement { get; set; }
+        public Location location { get; set; }
+        public object is_subscribed { get; set; }
+        public int id { get; set; }
+        public string username { get; set; }
+        public selected_flair selected_flair { get; set; }
+        public object glow_color { get; set; }
+        public bool is_admin { get; set; }
+        public bool is_mod { get; set; }
+        public string away_message { get; set; }
+        public bool is_playing { get; set; }
+        public bool is_online { get; set; }
+        public string profile_url { get; set; }
+        public string username_css_classes { get; set; }
+        public List<object> reported_match_behavior { get; set; }
+        public string local_time { get; set; }
+        public LadderInformation ladder_information { get; set; }
+        public int total_matches_played { get; set; }
+        public int wins { get; set; }
+        public int losses { get; set; }
+        public List<object> notes { get; set; }
+        public int is_ignored { get; set; }
+        public int is_friend { get; set; }
+        public bool has_dolphin_launcher { get; set; }
+        public int subscription_streak { get; set; }
+        public MemberSince member_since { get; set; }
+    }
 
     public class selected_flair
     {
@@ -367,10 +383,10 @@ public class User
         }
     }
 
-public class RootObject
-{
-    public bool success { get; set; }
-    public User user { get; set; }
-    public object now_playing { get; set; }
-}
+    public class RootObject
+    {
+        public bool success { get; set; }
+        public User user { get; set; }
+        public object now_playing { get; set; }
+    }
 }
