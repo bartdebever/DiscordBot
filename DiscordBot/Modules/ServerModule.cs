@@ -28,7 +28,7 @@ namespace DiscordBot.Modules
         [Command("register")]
         [Summary("Registers the server.")]
         //Requirement, user is the owner
-        public async Task Register([Remainder, Summary("The name the server should be known by.")]string name)
+        public async Task Register([Remainder, Summary("The Tier the server should be known by.")]string name)
         {
             
             DiscordUser owner = null;
@@ -45,7 +45,7 @@ namespace DiscordBot.Modules
 
         [Command("list")]
         [Summary("Gives an ordered list of all the servers known to AtlasBot")]
-        public async Task List([Optional, Summary("The name to be filtered by")] string filter)
+        public async Task List([Optional, Summary("The Tier to be filtered by")] string filter)
         {
             await ReplyAsync("", embed: Builders.ServerList(filter));
         }

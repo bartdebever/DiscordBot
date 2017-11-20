@@ -89,6 +89,7 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
     </Reference>
@@ -132,6 +133,7 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -144,9 +146,10 @@
   <ItemGroup>
     <Compile Include="EmbedBuilder\Builders.cs" />
     <Compile Include="EmbedBuilder\SmashBuilder.cs" />
+    <Compile Include="Image generator\SmashPlayerCard.cs" />
     <Compile Include="Loggers\DefaultLogger.cs" />
     <Compile Include="Modules\ServerModule.cs" />
-    <Compile Include="Modules\SmashModule.cs" />
+    <Compile Include="Modules\AntherModule.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Program.cs" />
@@ -160,6 +163,10 @@
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj">
       <Project>{00725774-28A1-4DB1-A79D-6E96EC4A988D}</Project>
       <Name>DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmashHandler\SmashHandler.csproj">
+      <Project>{f5c68715-96ac-414b-880f-0ba62f80c8f7}</Project>
+      <Name>SmashHandler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

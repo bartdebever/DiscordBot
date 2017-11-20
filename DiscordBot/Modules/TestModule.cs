@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using DiscordBot.Image_generator;
 
 namespace DiscordBot.Modules
 {
@@ -13,7 +14,8 @@ namespace DiscordBot.Modules
         [Command("1"), Summary("A internal test command")]
         public async Task Say([Remainder, Summary("Var1")] string var)
         {
-            await ReplyAsync("Test: " + var);
+
+            await Context.Channel.SendFileAsync(SmashPlayerCard.Test(), "You're player card");
         }
 
         [Command("2")]

@@ -156,6 +156,7 @@
     <Compile Include="Static Data\Names.cs" />
     <Compile Include="Static Data\OptionManager.cs" />
     <Compile Include="Useraccounts\Implementation\APISummoner.cs" />
+    <Compile Include="Useraccounts\Implementation\SmashAccount.cs" />
     <Compile Include="Useraccounts\Interfaces\ISummoner.cs" />
     <Compile Include="Useraccounts\Interfaces\ITeam.cs" />
     <Compile Include="Interfaces\ITournament.cs" />

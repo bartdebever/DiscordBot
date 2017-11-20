@@ -29,7 +29,7 @@ namespace DataLibrary.Static_Data
                     DiscordUser user = null;
                     next = random.Next(1, int.MaxValue - 1);
                     user = Mock.Users.FirstOrDefault(x => x.Id == next);
-                    if (user != null)
+                    if (user == null)
                     {
                         validint = true;
                     }

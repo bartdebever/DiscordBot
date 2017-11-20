@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Data.Entity.Migrations.Model;
 using DataLibrary.Discord.Implemented;
 using DataLibrary.Useraccounts.Implementation;
 
@@ -17,9 +19,18 @@ namespace DataLibrary
         /// https://stackoverflow.com/questions/3600175/the-model-backing-the-database-context-has-changed-since-the-database-was-crea
         /// </summary>
         /// <param name="modelBuilder"></param>
-        public Mock()
+        public Mock() : base("MyConnectionStringName")
         {
-            //Database.SetInitializer<Mock>(null);
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<Mock, Configuration>());
         }
+    }
+
+    internal sealed class Configuration : DbMigrationsConfiguration<Mock>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = true;
+        }
+
     }
 }

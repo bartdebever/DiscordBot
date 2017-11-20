@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DataLibrary;
 using DataLibrary.Discord.Implemented;
 using DataLibrary.Static_Data;
+using DataLibrary.Useraccounts.Implementation;
 using DataLibrary.Useraccounts.Interfaces;
 using Discord;
 using Discord.Commands;
@@ -35,13 +36,13 @@ namespace DiscordBot.Modules
         [Command("Register"), Summary("Register using this command. Optionally you can give a username.")]
         public async Task Register([Optional, Summary("The username that the user wants to register with")] string name)
         {
-            if (!string.IsNullOrEmpty(name)) await ReplyAsync("Registered with name \"" + name + "\"");
+            if (!string.IsNullOrEmpty(name)) await ReplyAsync("Registered with Tier \"" + name + "\"");
             else
             {
                     if (database.Users.FirstOrDefault(x => x.Discordid == (long) Context.User.Id) == null)
                     {
                         var user = database.Users.Add(new DiscordUser(DatabaseManager.UserKeyGenerator(), Context.User.Username, new List<ISummoner>(),
-                            DateTime.Now));
+                            DateTime.Now, new SmashAccount()));
                         user.Discordid = (long) Context.User.Id;
                         database.SaveChanges();
                     }
@@ -50,7 +51,7 @@ namespace DiscordBot.Modules
             }
         }
 
-        [Group("name")]
+        [Group("Tier")]
         public class Username : ModuleBase
         {
             [Command("")]
