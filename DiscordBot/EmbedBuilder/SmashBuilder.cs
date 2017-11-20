@@ -20,15 +20,10 @@ namespace DiscordBot.EmbedBuilder
     {
         public static Discord.EmbedBuilder UserInfo(string username) //TODO Change to object
         {
-            DateTime birthday = new DateTime(2018, 2, 13);
-            string lastSeen = "1h ago";
-            string location = "Netherlands, North Brabant LOCAL";
-            string bio = "Newish Dutch player wanting to improve";
-            HttpResponseMessage response;
             CookieContainer cookieContainer = new CookieContainer();
             Uri uri = new Uri("http://www.smashladder.com");
             Cookie cookie =
-                new Cookie("lad_sock_hash", "", "/", "www.smashladder.com")
+                new Cookie("lad_sock_hash", "HASH", "/", "www.smashladder.com")
                 {
                     Expires = new DateTime(2033, 05, 18, 03, 33, 22)
                 };
@@ -36,19 +31,17 @@ namespace DiscordBot.EmbedBuilder
             cookieContainer.Add(uri, new Cookie("lad_sock_user_id", "78787", "/", "www.smashladder.com"));
             cookieContainer.Add(uri, new Cookie("lad_sock_remember_me", "bartdebever112%40outlook.com", "/", "www.smashladder.com"));
             HttpWebRequest webRequest =
-                (HttpWebRequest)HttpWebRequest.Create("http://www.smashladder.com/matchmaking/user?username=" + username);
+                (HttpWebRequest)WebRequest.Create("http://www.smashladder.com/matchmaking/user?username=" + username);
             webRequest.CookieContainer = cookieContainer;
             webRequest.Method = "GET";
             string result;
-            var encoding = ASCIIEncoding.ASCII;
             using (var reader = new StreamReader(webRequest.GetResponse().GetResponseStream()))
             {
                 result = reader.ReadToEnd();
             }
             RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
             User user = root.user;
-
-            Discord.EmbedBuilder builder = Builders.BaseBuilder("Link to " + Names.SmashLadder + " Profile", "All information known about **" + username + "**",
+            Discord.EmbedBuilder builder = Builders.BaseBuilder("Link to " + Names.SmashLadder + " Profile", "All information known about **" + user.username + "**",
                 ColorPicker.SmashModule,
                 new EmbedAuthorBuilder().WithName(Names.SmashLadder)
                     .WithUrl("http://www.smashladder.com"), "");
@@ -58,73 +51,84 @@ namespace DiscordBot.EmbedBuilder
                 builder.WithAuthor(new EmbedAuthorBuilder().WithName(Names.SmashLadder)
                     .WithUrl("http://www.smashladder.com").WithIconUrl("http:" + user.selected_flair.url));
             }
+            string location = "";
+            if (!string.IsNullOrEmpty(user.location.locality)) location += user.location.locality + ", ";
+            if (!string.IsNullOrEmpty(user.location.state)) location += user.location.state + ", ";
+            if (!string.IsNullOrEmpty(user.location.country.name)) location += user.location.country.name;
             builder.AddField(new EmbedFieldBuilder().WithName("Profile").WithValue(
                 "**Name: **" + user.username + "\n" +
-                "**Member Since: **" + user.member_since.full.ToLongDateString() + "\n" +
-                "**Location: **" + user.location.locality + ", " + user.location.country_state + "\n" +
+                "**Member Since: **" + user.member_since.full.ToLongDateString()+ "\n" +
+                "**Location: **" + location+ "\n" +
                 "**Status: **" + user.away_message + "\n" +
                 "**Total matches played: **" + user.total_matches_played));
-            if (user.ladder_information.Melee != null)
+            List<Game> games = new List<Game>()
             {
-                var melee = user.ladder_information.Melee;
-                int characters = 3;
-                string charactersinfo = "";
-                if (melee.characters.Count < 3) characters = melee.characters.Count;
-                for (int i = 0; i < characters; i++)
-                {
-                    charactersinfo += "**  " + melee.characters[i].name + ": **" + melee.characters[i].percent + "%" + "\n";
-                }
-                builder.AddField(new EmbedFieldBuilder().WithName(user.ladder_information.Melee.name)
-                    .WithValue(
-                        "**Total games played: **" + melee.league.stats.ranked_played + "\n" +
-                        "**Rank: **" + melee.league.name + " " + melee.league.division + "\n" +
-                        "**Character info:** displayed as Name: percentage played \n" + charactersinfo));
+                user.ladder_information.Melee,
+                user.ladder_information.Brawl,
+                user.ladder_information.ProjectM,
+                user.ladder_information.RPS,
+                user.ladder_information.SFF2,
+                user.ladder_information.Smash3DS,
+                user.ladder_information.Smash4Wiiu,
+                user.ladder_information.Smash64
+            };
+            var filteredgames = games.Where(x => x != null).ToList();
+            try
+            {
+                filteredgames = filteredgames.Where(x => x.league.stats.ranked_played != 0).ToList();
             }
+            catch
+            {
+                //No ranked games played
+            }
+            foreach (var game in filteredgames)
+                {
+                    try
+                    {
+                        var characters = "";
+                        var count = 3;
+                        if (game.characters.Count < count) count = game.characters.Count;
+                        if (count != 0)
+                        {
+                            characters = "**Characters:**\n";
+                            for (int i = 0; i < count; i++)
+                            {
+                                characters += "**  " + game.characters[i].name + ": **" + game.characters[i].percent + "%\n";
+                            }
+                        }
+                        var rank = "**Ranked: **Unranked\n";
+                        if (!string.IsNullOrEmpty(game.league.name))
+                        {
+                            rank = "**Ranked: **" + game.league.name + " " + game.league.division + "\n";
+                        }
+                        builder.AddField(new EmbedFieldBuilder().WithName(game.name).WithValue(
+                            "**Total ranked games played: **" + game.league.stats.ranked_played + "\n" +
+                            rank+
+                            characters
+                        ));
+                }
+                    catch
+                    {
+                        
+                    }
 
+                }
+
+            if (root.now_playing != null)
+            {
+                string type = "Friendlies";
+                if (root.now_playing.is_ranked)
+                {
+                    type = "Ranked";
+                }
+                builder.AddField(new EmbedFieldBuilder().WithName("Currently Playing").WithValue(
+                    "**" + root.now_playing.ladder_name + " " + type + "**: \n" +
+                    //"Using " + root.now_playing.build.name
+                    root.now_playing.player1.username + /* " " +(root.nowplay.player1.rank) + */ " vs " + root.now_playing.player2.username) /*+ " " (root.now_playing.player2.rank)*/);
+            }
             builder.WithUrl(user.profile_url);
-            //General information
-
-            //builder.AddField(new EmbedFieldBuilder().WithName("Profile").WithValue(
-            //    "**Name:** " + user.username + "\n"+
-            //    "**Birthday:** " + birthday.ToString("MMMM", CultureInfo.InvariantCulture)  +" "  + birthday.Day +"\n"+
-            //    "**Last Seen:** "+lastSeen+"\n"+
-            //    "**Location:** " + user.location.country_state));
-            //builder.AddField(new EmbedFieldBuilder().WithName("About " + username).WithValue(
-            //    bio));
-            ////TODO Check if player plays melee
-            //builder.AddField(new EmbedFieldBuilder().WithName("Super Smash Bros Melee")
-            //    .WithValue("**Mains:** Marth, Fox" + "\n"+
-            //    "**Rank:** Unranked\n"+
-            //    "**Friendlies:** 15\n"+
-            //    "**Ranked:** 0"));
-            //builder.AddField(new EmbedFieldBuilder().WithName("Super Smash Bros Wii U").WithValue(
-            //    "**Mains:** Ganondorf, Pikachu\n" +
-            //    "**Ranked:** Unranked\n" +
-            //    "**Friendlies:** 0\n" +
-            //    "**Ranked:** 0"));
-            //builder.WithUrl(user.profile_url);
-
-
-            //var list = new List<Match>();
-            //list.Add(new Match("Friendlies", "Melee", "BortTheBeaver", "Benzouz", null));
-            //list.Add(new Match("Friendlies", "Melee", "BortTheBeaver", "faked", "faked"));
-            //list.Add(new Match("Friendlies", "Melee", "BortTheBeaver", "sandwichyo", null));
-
-            //string matches = "";
-            //foreach (var match in list)
-            //{
-            //    if(match.Winner == null)
-            //    matches += match.Game + " " + match.Type + ": " + match.Player1 + " vs " + match.Player2;
-            //    else if (match.Winner == match.Player1)
-            //        matches += match.Game + " " + match.Type + ": **" + match.Player1 + "** vs " + match.Player2;
-            //    else matches += match.Game + " " + match.Type + ": " + match.Player1 + " vs **" + match.Player2 + "**";
-            //    matches += "\n";
-            //}
-            //builder.AddField(new EmbedFieldBuilder().WithName("Match History (First 5)").WithValue(
-            //    matches));
             return builder;
         }
-
     }
 
     public class Match
@@ -199,7 +203,7 @@ namespace DiscordBot.EmbedBuilder
 
     public class League
     {
-        public object name { get; set; }
+        public string name { get; set; }
         public string division { get; set; }
         public StatsSerialized stats_serialized { get; set; }
         public Stats stats { get; set; }
@@ -329,10 +333,6 @@ namespace DiscordBot.EmbedBuilder
         public Game SFF2 { get; set; }
         [JsonProperty(PropertyName = "8")]
         public Game RPS { get; set; }
-        [JsonProperty(PropertyName = "10")]
-        public Game ProjectMWifi { get; set; }
-        [JsonProperty(PropertyName = "11")]
-        public Game BrawlWifi { get; set; }
     }
 
     public class MemberSince
@@ -371,6 +371,7 @@ namespace DiscordBot.EmbedBuilder
         public bool has_dolphin_launcher { get; set; }
         public int subscription_streak { get; set; }
         public MemberSince member_since { get; set; }
+        public Lobby now_playing { get; set; }
     }
 
     public class selected_flair
@@ -387,6 +388,24 @@ namespace DiscordBot.EmbedBuilder
     {
         public bool success { get; set; }
         public User user { get; set; }
-        public object now_playing { get; set; }
+        public Lobby now_playing { get; set; }
+    }
+    public class Player
+    {
+        public int id { get; set; }
+        public string username { get; set; }
+    }
+
+    public class Lobby
+    {
+        public bool is_ranked { get; set; }
+        public int game_type { get; set; }
+        public int ladder_id { get; set; }
+        public string ladder_name { get; set; }
+        public string ladder_slug { get; set; }
+        public string game_slug { get; set; }
+        public int is_disputed { get; set; }
+        public Player player1 { get; set; }
+        public Player player2 { get; set; }
     }
 }
