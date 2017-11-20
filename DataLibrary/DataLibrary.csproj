@@ -152,6 +152,7 @@
     <Compile Include="Interfaces\IRole.cs" />
     <Compile Include="Discord\Interfaces\IServer.cs" />
     <Compile Include="Static Data\DatabaseManager..cs" />
+    <Compile Include="Static Data\ColorPicker.cs" />
     <Compile Include="Static Data\Names.cs" />
     <Compile Include="Static Data\OptionManager.cs" />
     <Compile Include="Useraccounts\Implementation\APISummoner.cs" />

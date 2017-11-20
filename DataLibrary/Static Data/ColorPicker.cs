@@ -18,7 +18,7 @@ namespace DataLibrary.Static_Data
         public static Color LeagueModule => Color.DarkBlue;
         public static Color CoachModule => Color.Orange;
 
-        public static Color SmashModule => Color.LightOrange;
+        public static Color SmashModule => Color.Gold;
         //Responses
         public static Color FailedResponse => Color.DarkRed;
         public static Color SuccesResponse => Color.Green;

@@ -10,5 +10,6 @@ namespace DataLibrary.Static_Data
     {
         public static string BotName => "AtlasBot";
         public static string Systemname => "Atlas";
+        public static string SmashLadder => "Anther's Ladder";
     }
 }
