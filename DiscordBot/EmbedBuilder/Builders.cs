@@ -167,15 +167,15 @@ namespace DiscordBot.EmbedBuilder
         //Failed Response
         public static Discord.EmbedBuilder ErrorBuilder(string exception)
         {
-            return ErrorBuilder(exception, false);
+            return ErrorBuilder(exception, null);
         }
 
-        public static Discord.EmbedBuilder ErrorBuilder(string exception, bool isException)
+        public static Discord.EmbedBuilder ErrorBuilder(string exception, Exception ex)
         {
             Discord.EmbedBuilder builder = BaseBuilder("", "Well this is awkward, I made a mistake", ColorPicker.FailedResponse,
                 new EmbedAuthorBuilder().WithName("Error"), null);
             builder.AddField(new EmbedFieldBuilder().WithName("**Error details**").WithValue(exception));
-            if (isException)
+            if (ex != null)
             {
                 builder.AddField(new EmbedFieldBuilder().WithName("Do not worry!")
                     .WithValue("This error has already been sent to Bort, he will work on this soon I promise!"));
