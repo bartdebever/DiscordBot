@@ -9,7 +9,7 @@ namespace SmashHandler.DataTypes
 {
     public class League
     {
-        [JsonProperty(PropertyName = "Tier")]
+        [JsonProperty(PropertyName = "name")]
         public string Tier { get; set; }
         [JsonProperty(PropertyName = "division")]
         public string Division { get; set; }

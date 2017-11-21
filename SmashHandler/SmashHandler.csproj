@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Constant data\Adreses.cs" />
     <Compile Include="Constant data\Endpoints.cs" />
+    <Compile Include="DataTypes\Character.cs" />
+    <Compile Include="DataTypes\GameSmall.cs" />
     <Compile Include="DataTypes\League.cs" />
     <Compile Include="DataTypes\Location.cs" />
     <Compile Include="DataTypes\Ranks.cs" />

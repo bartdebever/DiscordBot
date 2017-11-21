@@ -141,7 +141,7 @@ namespace SmashHandler.DataTypes
         public object is_subscribed { get; set; }
         public int id { get; set; }
         public string username { get; set; }
-        public Flair Flair { get; set; }
+        public Flair selected_flair_global { get; set; }
         public object glow_color { get; set; }
         public bool is_admin { get; set; }
         public bool is_mod { get; set; }

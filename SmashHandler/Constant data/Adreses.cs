@@ -10,6 +10,6 @@ namespace SmashHandler.Constant_data
     {
         public static Uri BaseUri => new Uri("http://www.smashladder.com");
         public static string Baseurl => "www.smashladder.com";
-        public static string Apibase => "apiv1";
+        public static string Apibase => "apiv1/";
     }
 }
