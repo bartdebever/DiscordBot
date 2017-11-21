@@ -20,7 +20,7 @@ namespace DiscordBot.EmbedBuilder
         {
             bool registered = false;
             Mock database = DatabaseManager.GetMock();
-            IUser atlasAccount = null;
+            DiscordUser atlasAccount = null;
             try
             {
                 atlasAccount =
@@ -65,23 +65,34 @@ namespace DiscordBot.EmbedBuilder
                 discordInformation += "**Currently Playing: **" + Context.User.Game.Value.Name + "\n";
             }
             eb.AddField(new EmbedFieldBuilder().WithName("Discord information").WithValue(discordInformation));
+            //if (atlasAccount != null)
+            //{
+            //    if (atlasAccount.Summoners.Count > 0)
+            //    {
+            //        string summoners = "";
+            //        foreach (var summoner in atlasAccount.Summoners)
+            //        {
+            //            summoners += summoner.Region + ": " + summoner.SummonerId; //TODO Make this a Tier
+            //        }
+            //        eb.AddField(new EmbedFieldBuilder().WithName("Summoner Information").WithValue(summoners));
+            //    }
+            //    else
+            //    {
+            //        eb.AddField(new EmbedFieldBuilder().WithName("Summoner Information")
+            //            .WithValue("This user has no summoners."));
+            //    }
+            //}
             if (atlasAccount != null)
             {
-                if (atlasAccount.Summoners.Count > 0)
+                string accountinfo = "User does not have accounts linked\nUser **-HELPCOMMAND** to get started.";
+                if (atlasAccount.SmashAccount.Username != null && (bool)atlasAccount.SmashAccount.IsVerified)
                 {
-                    string summoners = "";
-                    foreach (var summoner in atlasAccount.Summoners)
-                    {
-                        summoners += summoner.Region + ": " + summoner.SummonerId; //TODO Make this a Tier
-                    }
-                    eb.AddField(new EmbedFieldBuilder().WithName("Summoner Information").WithValue(summoners));
+                    accountinfo = "**" + Names.SmashLadder + " account:**\n" + atlasAccount.SmashAccount.Username + " "+
+                                   atlasAccount.SmashAccount.Rank;
                 }
-                else
-                {
-                    eb.AddField(new EmbedFieldBuilder().WithName("Summoner Information")
-                        .WithValue("This user has no summoners."));
-                }
+                eb.AddField("Accounts", accountinfo);
             }
+
             return eb.Build();
         }
 

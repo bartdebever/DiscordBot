@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -36,19 +37,27 @@ namespace DiscordBot.Modules
         [Command("Register"), Summary("Register using this command. Optionally you can give a username.")]
         public async Task Register([Optional, Summary("The username that the user wants to register with")] string name)
         {
-            if (!string.IsNullOrEmpty(name)) await ReplyAsync("Registered with Tier \"" + name + "\"");
+            Discord.EmbedBuilder builder = null;
+            string username = Context.User.Username;
+            if (!string.IsNullOrEmpty(name)) username = name;
+            if (database.Users.FirstOrDefault(x => x.Discordid == (long)Context.User.Id) == null)
+            {
+                var user = database.Users.Add(new DiscordUser(DatabaseManager.UserKeyGenerator(),
+                    username, new List<ISummoner>(),
+                    DateTime.Now, new SmashAccount()));
+                user.Discordid = (long)Context.User.Id;
+                database.SaveChanges();
+                builder = Builders.BaseBuilder("", "", ColorPicker.UserModule,
+                    new EmbedAuthorBuilder().WithName("Successfully registered account."), "");
+                builder.AddField("New " + Names.Systemname + " account registed",
+                    "Successfully registerd a new account with the name \"" + user.Name +
+                    "\"\nUser **-user** to get information about your account, use **-HELP COMMAND** to get info on what to do now");
+            }
             else
             {
-                    if (database.Users.FirstOrDefault(x => x.Discordid == (long) Context.User.Id) == null)
-                    {
-                        var user = database.Users.Add(new DiscordUser(DatabaseManager.UserKeyGenerator(), Context.User.Username, new List<ISummoner>(),
-                            DateTime.Now, new SmashAccount()));
-                        user.Discordid = (long) Context.User.Id;
-                        database.SaveChanges();
-                    }
-                
-                await ReplyAsync("Registered with Discord Name: " + Context.User.Username);
+                builder = Builders.ErrorBuilder("User is already registered.\nUse **-user** to view your info");
             }
+            await ReplyAsync("", embed: builder.Build());
         }
 
         [Group("Tier")]
@@ -68,5 +77,35 @@ namespace DiscordBot.Modules
                 if (!string.IsNullOrEmpty(name)) await ReplyAsync("Name set to: " + name);
             }
         }
+
+        [Command("Anther")]
+        public async Task SmashInfo([Required] IGuildUser user)
+        {
+            Mock database = DatabaseManager.GetMock();
+            DiscordUser discordUser = null;
+            Discord.EmbedBuilder builder;
+            discordUser = database.Users.FirstOrDefault(x => x.Discordid == (long) user.Id);
+            if (discordUser == null)
+            {
+                builder = Builders.ErrorBuilder("User does not have a " + Names.Systemname + " account.\nUser -user register to register now!");
+            }
+            else if (discordUser.SmashAccount.Username == null)
+            {
+                builder = Builders.ErrorBuilder("User does not have a " + Names.SmashLadder + " account.\nUser -Anther register *<name>* to start getting set up.");
+            }
+            else
+            {
+                builder = SmashBuilder.UserInfo(discordUser.SmashAccount.Username);
+            }
+            try
+            {
+                await ReplyAsync("", embed: builder.Build());
+            }
+            catch
+            {
+                await ReplyAsync("", embed: Builders.ErrorBuilder("Critical unknown error!").Build());
+            }
+        }
+        
     }
 }
