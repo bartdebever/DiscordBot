@@ -38,5 +38,13 @@ namespace DataLibrary.Static_Data
             return next;
 
         }
+
+        public static string GenerateString()
+        {
+            Random random = new Random();
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            return new string(Enumerable.Repeat(chars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
     }
 }

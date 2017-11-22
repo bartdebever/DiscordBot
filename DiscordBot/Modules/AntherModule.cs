@@ -42,10 +42,23 @@ namespace DiscordBot.Modules
             DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long) Context.User.Id);
             if (atlasUser.SmashAccount.Username == null)
             {
-                SmashAccount account = new SmashAccount(user.username, "RANDOMTOKEN", false);
+                string validationstring = DatabaseManager.GenerateString();
+                SmashAccount account = new SmashAccount(user.username, validationstring, false);
                 atlasUser.SmashAccount = account;
                 DatabaseManager.GetMock().SaveChanges();
-                await ReplyAsync("Added your account!");
+                await ReplyAsync("Added your account!\nPlease set your status to be " + validationstring +
+                                 ".\nYou can do this by clicking on your own name and clicking the [Click here to edit your status message]");
+            }
+            else
+            {
+                if (atlasUser.SmashAccount.Token.ToLower() == user.away_message.ToLower())
+                {
+                    atlasUser.SmashAccount.IsVerified = true;
+                    DatabaseManager.GetMock().SaveChanges();
+                    await ReplyAsync(
+                        "Successfully verified your account!.\nPeople can now use -user anther <@you> to see your account!");
+                }
+                
             }
         }
 

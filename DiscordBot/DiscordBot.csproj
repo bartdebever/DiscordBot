@@ -133,6 +133,7 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -149,8 +150,10 @@
     <Compile Include="Helper\RoleAssignment.cs" />
     <Compile Include="Image generator\SmashPlayerCard.cs" />
     <Compile Include="Loggers\DefaultLogger.cs" />
+    <Compile Include="Modules\AmiiboModule.cs" />
     <Compile Include="Modules\ServerModule.cs" />
     <Compile Include="Modules\AntherModule.cs" />
+    <Compile Include="Modules\SmashModule.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Program.cs" />
@@ -161,9 +164,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AmiiboRestHandler\AmiiboRestHandler.csproj">
+      <Project>{ef9bd59b-7c15-48f6-af39-5ed5ecf849e8}</Project>
+      <Name>AmiiboRestHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj">
       <Project>{00725774-28A1-4DB1-A79D-6E96EC4A988D}</Project>
       <Name>DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KugorganeHammerHandler\KugorganeHammerHandler.csproj">
+      <Project>{0a64b151-87dc-46db-9582-8b3efa8348f7}</Project>
+      <Name>KugorganeHammerHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MeleeHandler\MeleeHandler.csproj">
+      <Project>{f578ff5b-b7cc-4a73-8a7f-473f34ab52bf}</Project>
+      <Name>MeleeHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmashHandler\SmashHandler.csproj">
       <Project>{f5c68715-96ac-414b-880f-0ba62f80c8f7}</Project>
