@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KugorganeHammerHandler.Data_Types;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -15,17 +16,34 @@ namespace KugorganeHammerHandler
             string json = RequestBuilder.GetChampion(name);
             return JsonConvert.DeserializeObject<Character>(json);
         }
+
+        public static Movement GetMovement(string name)
+        {
+            string json = RequestBuilder.GetMovement(name);
+            var movements = JsonConvert.DeserializeObject<List<MovementAttribute>>(json);
+            return new Movement(movements);
+        }
     }
 
     public static class RequestBuilder
     {
-        public static Uri BaseUri => new Uri("http://beta-api-kuroganehammer.azurewebsites.net/api");
-        public static string CharacterEndpoint => "characters/";
+        private static Uri BaseUri => new Uri("http://api.kuroganehammer.com");
+        private static string CharacterEndpoint => "api/characters/";
+        private static string Movement => "movements/";
+        private static string MovementEndpoint => "api/movements/";
 
         public static string GetChampion(string name)
         {
             var client = new RestClient(BaseUri);
             var request = new RestRequest(CharacterEndpoint + "name/" + name, Method.GET);
+            IRestResponse response = client.Execute(request);
+            return response.Content;
+        }
+
+        public static string GetMovement(string name)
+        {
+            var client = new RestClient(BaseUri);
+            var request = new RestRequest(CharacterEndpoint + "name/"+name+"/"+ Movement);
             IRestResponse response = client.Execute(request);
             return response.Content;
         }
