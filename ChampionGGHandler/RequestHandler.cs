@@ -15,5 +15,11 @@ namespace ChampionGGHandler
             var json = RequestBuilder.GetChampionStats(id);
             return JsonConvert.DeserializeObject<ChampionData[]>(json);
         }
+
+        public static ChampionPerformance GetOverallPerformance()
+        {
+            var json = RequestBuilder.GetPerformance();
+            return JsonConvert.DeserializeObject<ChampionPerformance[]>(json)[0];
+        }
     }
 }

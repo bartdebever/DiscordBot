@@ -141,9 +141,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Champion.cs" />
     <Compile Include="Discord\Implemented\DiscordRole.cs" />
     <Compile Include="Discord\Implemented\DiscordServer.cs" />
     <Compile Include="Discord\Implemented\ServerOptions.cs" />
+    <Compile Include="RiotData.cs" />
     <Compile Include="Shop\Exceptions\CoinBuyException.cs" />
     <Compile Include="Shop\Exceptions\CoinSellException.cs" />
     <Compile Include="Interfaces\ICoach.cs" />

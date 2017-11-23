@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmbedBuilder\Builders.cs" />
+    <Compile Include="EmbedBuilder\ChampionGGBuilder.cs" />
     <Compile Include="EmbedBuilder\SmashBuilder.cs" />
     <Compile Include="Helper\RoleAssignment.cs" />
     <Compile Include="Image generator\SmashPlayerCard.cs" />

@@ -18,7 +18,6 @@ namespace DiscordBot.EmbedBuilder
     {
         public static Embed CurrentUserEmbed(ICommandContext Context)
         {
-            bool registered = false;
             Mock database = DatabaseManager.GetMock();
             DiscordUser atlasAccount = null;
             try
