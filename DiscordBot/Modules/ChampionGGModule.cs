@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChampionGGHandler;
 using Discord.Commands;
+using DiscordBot.EmbedBuilder;
 
 namespace DiscordBot.Modules
 {
@@ -15,7 +16,7 @@ namespace DiscordBot.Modules
         public async Task Stats([Remainder] int id)
         {
             var stats = RequestHandler.GetChampionDataById(id);
-            await ReplyAsync($"**ELO: **{stats[0].Elo}");
+            await ReplyAsync("", embed: ChampionGGBuilder.GetChampionInfo(stats[0]).Build());
         }
     }
 }
