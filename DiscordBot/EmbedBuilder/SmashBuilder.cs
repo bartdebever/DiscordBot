@@ -29,10 +29,10 @@ namespace DiscordBot.EmbedBuilder
                 new EmbedAuthorBuilder().WithName(Names.SmashLadder)
                     .WithUrl("http://www.smashladder.com"), "");
             builder.WithThumbnailUrl("https://www.smashladder.com/images/subhypepikachu-logo.png");
-            if (user.selected_flair_global != null)
+            if (user.selected_flair != null)
             {
                 builder.WithAuthor(new EmbedAuthorBuilder().WithName(Names.SmashLadder)
-                    .WithUrl("http://www.smashladder.com").WithIconUrl("http:" + user.selected_flair_global.url));
+                    .WithUrl("http://www.smashladder.com").WithIconUrl("http:" + user.selected_flair.url));
             }
             string location = "";
             if (!string.IsNullOrEmpty(user.location.Locality)) location += user.location.Locality + ", ";
