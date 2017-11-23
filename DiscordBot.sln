@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\DiscordBot.csproj", "{3D5D504C-A8E6-4E22-A693-1F2AFC5902D5}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeleeHandler", "MeleeHandler\MeleeHandler.csproj", "{F578FF5B-B7CC-4A73-8A7F-473F34AB52BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KugorganeHammerHandler", "KugorganeHammerHandler\KugorganeHammerHandler.csproj", "{0A64B151-87DC-46DB-9582-8B3EFA8348F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChampionGGHandler", "ChampionGGHandler\ChampionGGHandler.csproj", "{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{0A64B151-87DC-46DB-9582-8B3EFA8348F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A64B151-87DC-46DB-9582-8B3EFA8348F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A64B151-87DC-46DB-9582-8B3EFA8348F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

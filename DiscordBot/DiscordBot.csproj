@@ -151,6 +151,7 @@
     <Compile Include="Image generator\SmashPlayerCard.cs" />
     <Compile Include="Loggers\DefaultLogger.cs" />
     <Compile Include="Modules\AmiiboModule.cs" />
+    <Compile Include="Modules\ChampionGGModule.cs" />
     <Compile Include="Modules\ServerModule.cs" />
     <Compile Include="Modules\AntherModule.cs" />
     <Compile Include="Modules\SmashModule.cs" />
@@ -167,6 +168,10 @@
     <ProjectReference Include="..\AmiiboRestHandler\AmiiboRestHandler.csproj">
       <Project>{ef9bd59b-7c15-48f6-af39-5ed5ecf849e8}</Project>
       <Name>AmiiboRestHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChampionGGHandler\ChampionGGHandler.csproj">
+      <Project>{ad880a72-68e2-4d09-a5b8-fb24ee5e72dd}</Project>
+      <Name>ChampionGGHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj">
       <Project>{00725774-28A1-4DB1-A79D-6E96EC4A988D}</Project>
