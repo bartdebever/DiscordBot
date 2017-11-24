@@ -76,5 +76,53 @@ namespace DiscordBot.Modules
                 await ReplyAsync("", embed: builder.Build());
             }
         }
+
+        [Group("Melee")]
+        public class Melee : ModuleBase
+        {
+            [Command("")]
+            public async Task GetCharacter([Remainder] string name)
+            {
+                var characters = new List<string>()
+                {
+                    "Bowser",
+                    "Captain Falcon",
+                    "Donkey Kong",
+                    "Dr. Mario",
+                    "Falco",
+                    "Fox",
+                    "Ganondorf",
+                    "Ice Climbers",
+                    "Jugglypuff",
+                    "Kirby",
+                    "Link",
+                    "Luigi",
+                    "Mario",
+                    "Marth",
+                    "Mewtwo",
+                    "Mr. Game And Watch",
+                    "Ness",
+                    "Peach",
+                    "Pichu",
+                    "Pikachu",
+                    "Roy",
+                    "Samus",
+                    "Sheik",
+                    "Yoshi",
+                    "Young Link",
+                    "Zelda"
+                };
+                var id = characters.IndexOf(name) + 1;
+                var character = MeleeHandler.RequestHandler.GetCharacter(id);
+                var builder = Builders.BaseBuilder("", "", Color.Teal,
+                    new EmbedAuthorBuilder().WithName(character.name).WithIconUrl($"http://smashlounge.com/img/pixel/{character.name.Replace(" ","")}HeadSSBM.png"), "");
+                builder.AddField("Description", character.guide);
+                builder.AddField("Stats", $"**Tier: **{character.tierdata}\n" +
+                                          $"**Weight: **{character.weight}\n" +
+                                          $"**Fallspeed: **{character.fallspeed}\n" +
+                                          $"**Can Walljump: **{Convert.ToBoolean(Int32.Parse(character.walljump))}");
+                await ReplyAsync("", embed: builder.Build());
+            }
+        }
     }
 }

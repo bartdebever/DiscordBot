@@ -153,6 +153,7 @@
     <Compile Include="Loggers\DefaultLogger.cs" />
     <Compile Include="Modules\AmiiboModule.cs" />
     <Compile Include="Modules\ChampionGGModule.cs" />
+    <Compile Include="Modules\LeagueModule.cs" />
     <Compile Include="Modules\ServerModule.cs" />
     <Compile Include="Modules\AntherModule.cs" />
     <Compile Include="Modules\SmashModule.cs" />

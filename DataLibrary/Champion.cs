@@ -15,6 +15,46 @@ namespace DataLibrary
         public string name { get; set; }
         public string key { get; set; }
         public string title { get; set; }
+        public List<SkinDto> skins { get; set; }
+        public PassiveDto passive { get; set; }
+        public List<ChampionSpellDto> spells { get; set; }
+        public string lore { get; set; }
+        public StatsDto stats { get; set; }
+    }
+
+    public class SkinDto
+    {
+        public int num { get; set; }
+        public string name { get; set; }
+        public int id { get; set; }
+    }
+
+    public class PassiveDto
+    {
+        public int Id { get; set; }
+        public string sanitizedDescription { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+    }
+
+    public class ChampionSpellDto
+    {
+        public int Id { get; set; }
+        public string cooldownBurn { get; set; }
+        public string resource { get; set; }
+        public string costType { get; set; }
+        public string sanitizedDescription { get; set; }
+        public string sanitizedTooltip { get; set; }
+        public string name { get; set; }
+        public string key { get; set; }
+    }
+    public class StatsDto
+    {
+        public int Id { get; set; }
+        public int difficulty { get; set; }
+        public int attack { get; set; }
+        public int defense { get; set; }
+        public int magic { get; set; }
     }
 
     public class Data
