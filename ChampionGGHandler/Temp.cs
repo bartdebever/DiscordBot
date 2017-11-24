@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using DataLibrary;
+using DataLibrary.Static_Data;
 
 namespace ChampionGGHandler
 {
@@ -22,7 +23,7 @@ namespace ChampionGGHandler
             var client = new RestClient(new Uri("https://euw1.api.riotgames.com"));
             var request =
                 new RestRequest(
-                    "lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=");
+                    $"lol/static-data/v3/champions?locale=en_US&dataById=false&api_key={OptionManager.RiotKey}");
             var response = client.Execute(request);
             var json = response.Content;
             var champions = JsonConvert.DeserializeObject<RootChampion>(json).data;

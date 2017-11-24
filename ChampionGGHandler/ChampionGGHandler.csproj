@@ -68,7 +68,6 @@
     <Compile Include="Temp.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Fakes Include="Fakes\DataLibrary.fakes" />
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>

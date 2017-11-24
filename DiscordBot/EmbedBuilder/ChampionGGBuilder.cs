@@ -48,8 +48,8 @@ namespace DiscordBot.EmbedBuilder
             return new EmbedFieldBuilder().WithName(lane).WithValue(
                 $"**Highest Winrate: **{Temp.GetChampionName(stats.winrate.best.championId)} {Math.Round(stats.winrate.best.score*100,2)}%" +
                 $"\n**Lowest Winrate: **{Temp.GetChampionName(stats.winrate.worst.championId)} {Math.Round(stats.winrate.worst.score*100,2)}%" +
-                $"\n**Best Performance: **{Temp.GetChampionName(stats.performanceScore.best.championId)} {stats.performanceScore.best.score}\n" +
-                $"**Worst Performance: **{Temp.GetChampionName(stats.performanceScore.worst.championId)} {stats.performanceScore.worst.score}");
+                $"\n\n**Best Performance: **{Temp.GetChampionName(stats.performanceScore.best.championId)} **Score:** {Math.Round(stats.performanceScore.best.score,2)}\n" +
+                $"**Worst Performance: **{Temp.GetChampionName(stats.performanceScore.worst.championId)} **Score:** {Math.Round(stats.performanceScore.worst.score,2)}");
         }
     }
 }
