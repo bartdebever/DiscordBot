@@ -1,0 +1,14 @@
+﻿@using Microsoft.Ajax.Utilities
+@model DataLibrary.Discord.Implemented.DiscordUser
+
+@{
+    ViewBag.Title = "title";
+}
+
+<h2>@Model.Name</h2>
+<b>Joined:</b> @Model.CreationDate.ToLongDateString()
+@if (!string.IsNullOrEmpty(Model.SmashAccount.Username) && (bool) Model.SmashAccount.IsVerified)
+{
+    <br/>
+    <b>Anther's Ladder Account:</b> @Model.SmashAccount.Username
+}

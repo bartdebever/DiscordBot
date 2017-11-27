@@ -18,5 +18,12 @@ namespace DataLibrary.Shop
         };
 
         public static List<ShopItem> GetShopItems => _shopItems;
+
+        public static void ReplaceItem(ShopItem item)
+        {
+            var current = _shopItems.FirstOrDefault(x=> x.Id == item.Id);
+            var index = _shopItems.IndexOf(current);
+            _shopItems[index] = item;
+        }
     }
 }

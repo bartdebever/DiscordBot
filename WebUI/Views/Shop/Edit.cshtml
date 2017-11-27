@@ -1,0 +1,46 @@
+﻿@model DataLibrary.Shop.ShopItem
+
+@{
+    ViewBag.Title = "title";
+}
+<div class="col-lg-5">
+<h2>Edit</h2>
+@using (Html.BeginForm("Edit", "Shop", FormMethod.Post))
+{
+    @Html.LabelFor(x => x.Name, "Name")
+    ;
+    @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Description, "Description")
+    @Html.TextBoxFor(x => x.Description, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Game, "Game")
+    ;
+    @Html.TextBoxFor(x => x.Game, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Series, "Series")
+    @Html.TextBoxFor(x => x.Series, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Condition, "Condition")
+    @Html.TextBoxFor(x => x.Condition, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Price, "Price")
+    ;
+    @Html.TextBoxFor(x => x.Price, new {@type = "number", @class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.ImageUrl, "Image URL")
+    @Html.TextBoxFor(x => x.ImageUrl, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Buyable, "Buyable")
+    @Html.CheckBoxFor(x => x.Buyable, new {@class = "form-control"})
+    <br/>
+    @Html.LabelFor(x => x.Code, "Code")
+    @Html.TextBoxFor(x => x.Code, new {@class = "form-control"})
+    <br/>
+    <button type="submit" class="btn btn-success">Save</button>
+}
+</div>
+<div class="col-lg-5">
+    <h2>Image Preview</h2>
+    <img src="@Model.ImageUrl" width="75%" height="50%" style="padding-top: 1em"/>
+</div>

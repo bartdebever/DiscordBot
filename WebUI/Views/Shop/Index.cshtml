@@ -1,0 +1,47 @@
+﻿@model System.Collections.Generic.List<DataLibrary.Shop.ShopItem>
+
+@{
+    ViewBag.Title = "title";
+}
+
+
+<div class="container">
+    <h2>Shop</h2>
+    <p>Current items in store:</p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Buyable</th>
+            <th>Code</th>
+            <th>Condition</th>
+            <th>Game</th>
+            <th>Series</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@item.Buyable</td>
+                <td>@item.Code</td>
+                <td>@item.Condition</td>
+                <td>@item.Game</td>
+                <td>@item.Series</td>
+                <td><a href="Shop/Edit/@item.Id" class="btn btn-info">Edit</a></td>
+                @*<td><button class="btn btn-info">Edit</button></td>*@
+                <td><button class="btn btn-danger">Remove</button></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
