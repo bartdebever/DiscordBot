@@ -154,8 +154,10 @@
     <Compile Include="Modules\AmiiboModule.cs" />
     <Compile Include="Modules\ChampionGGModule.cs" />
     <Compile Include="Modules\LeagueModule.cs" />
+    <Compile Include="Modules\OverwatchModule.cs" />
     <Compile Include="Modules\ServerModule.cs" />
     <Compile Include="Modules\AntherModule.cs" />
+    <Compile Include="Modules\Shopmodule.cs" />
     <Compile Include="Modules\SmashModule.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Modules\UserModule.cs" />
@@ -186,6 +188,10 @@
     <ProjectReference Include="..\MeleeHandler\MeleeHandler.csproj">
       <Project>{f578ff5b-b7cc-4a73-8a7f-473f34ab52bf}</Project>
       <Name>MeleeHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OverwatchHandler\OverwatchHandler.csproj">
+      <Project>{21e3bfb3-819e-4785-a787-6031b62456fe}</Project>
+      <Name>OverwatchHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmashHandler\SmashHandler.csproj">
       <Project>{f5c68715-96ac-414b-880f-0ba62f80c8f7}</Project>

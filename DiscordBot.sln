@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\DiscordBot.csproj", "{3D5D504C-A8E6-4E22-A693-1F2AFC5902D5}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KugorganeHammerHandler", "KugorganeHammerHandler\KugorganeHammerHandler.csproj", "{0A64B151-87DC-46DB-9582-8B3EFA8348F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChampionGGHandler", "ChampionGGHandler\ChampionGGHandler.csproj", "{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverwatchHandler", "OverwatchHandler\OverwatchHandler.csproj", "{21E3BFB3-819E-4785-A787-6031B62456FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD880A72-68E2-4D09-A5B8-FB24EE5E72DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21E3BFB3-819E-4785-A787-6031B62456FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E3BFB3-819E-4785-A787-6031B62456FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E3BFB3-819E-4785-A787-6031B62456FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E3BFB3-819E-4785-A787-6031B62456FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
