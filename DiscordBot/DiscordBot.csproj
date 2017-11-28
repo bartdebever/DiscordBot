@@ -158,6 +158,7 @@
     <Compile Include="Modules\ServerModule.cs" />
     <Compile Include="Modules\AntherModule.cs" />
     <Compile Include="Modules\Shopmodule.cs" />
+    <Compile Include="Modules\SmashggModule.cs" />
     <Compile Include="Modules\SmashModule.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Modules\UserModule.cs" />
@@ -192,6 +193,10 @@
     <ProjectReference Include="..\OverwatchHandler\OverwatchHandler.csproj">
       <Project>{21e3bfb3-819e-4785-a787-6031b62456fe}</Project>
       <Name>OverwatchHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmashGgHandler\SmashGgHandler.csproj">
+      <Project>{e74d6cda-cc80-4a9e-974c-c93ef08bcf85}</Project>
+      <Name>SmashGgHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmashHandler\SmashHandler.csproj">
       <Project>{f5c68715-96ac-414b-880f-0ba62f80c8f7}</Project>
