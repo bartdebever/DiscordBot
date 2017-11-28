@@ -48,5 +48,24 @@ namespace DiscordBot.Modules
             builder.AddField("Abilities", abilityInfo);
             await ReplyAsync("", embed: builder.Build());
         }
+
+        [Command("Profile")]
+        public async Task GetProfile(string region, [Remainder] string name)
+        {
+            var profile = RequestHandler.GetProfileByName(region, name);
+            var builder = Builders.BaseBuilder(profile.name, "", Color.Blue, null, profile.icon);
+            builder.WithImageUrl(profile.ratingIcon);
+            builder.AddField("Information",
+                $"**Name: **{profile.name}\n" +
+                $"**Prestige: **{profile.prestige}\n" +
+                $"**Level: **{profile.level}\n" +
+                $"**Rating: **{profile.rating}\n" +
+                $"**Total Games Won: **{profile.gamesWon}\n" +
+                $"**QuickPlay Games Won: **{profile.quickPlayStats.games.won}\n" +
+                $"**Competitive:**\n" +
+                $"- Games Played: {profile.competitiveStats.games.played}\n" +
+                $"- Games Won: {profile.competitiveStats.games.won}");
+            await ReplyAsync("", embed: builder.Build());
+        }
     }
 }

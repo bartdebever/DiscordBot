@@ -43,5 +43,11 @@ namespace OverwatchHandler
             var hero = RequestBuilder.GetHeroById(heroId);
             return JsonConvert.DeserializeObject<OverwatchHero>(hero);
         }
+
+        public static OverwatchProfile GetProfileByName(string region, string name)
+        {
+            var profile = RequestBuilder.GetPlayerByName(region, name);
+            return JsonConvert.DeserializeObject<OverwatchProfile>(profile);
+        }
     }
 }
