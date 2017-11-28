@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\Ana.cs" />
     <Compile Include="DataTypes\OverwatchAbility.cs" />
     <Compile Include="DataTypes\OverwatchHero.cs" />
     <Compile Include="OverwatchProfile.cs" />

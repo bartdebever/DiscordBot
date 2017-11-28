@@ -23,7 +23,7 @@ namespace OverwatchHandler
         public static string GetPlayerByName(string region, string name)
         {
             var client = new RestClient(new Uri("http://ow-api.com/v1/stats/pc"));
-            var request = new RestRequest($"{region}/{name.Replace("#", "-")}/profile", Method.GET);
+            var request = new RestRequest($"{region}/{name.Replace("#", "-")}/complete", Method.GET);
             return client.Execute(request).Content;
         }
 

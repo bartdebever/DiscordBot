@@ -44,10 +44,10 @@ namespace OverwatchHandler
             return JsonConvert.DeserializeObject<OverwatchHero>(hero);
         }
 
-        public static OverwatchProfile GetProfileByName(string region, string name)
+        public static RootObject GetProfileByName(string region, string name)
         {
             var profile = RequestBuilder.GetPlayerByName(region, name);
-            return JsonConvert.DeserializeObject<OverwatchProfile>(profile);
+            return JsonConvert.DeserializeObject<RootObject>(profile);
         }
     }
 }
