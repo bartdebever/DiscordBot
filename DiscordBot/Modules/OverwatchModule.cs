@@ -89,7 +89,7 @@ namespace DiscordBot.Modules
                 }
             }
             builder.AddField("Top 3 QuickPlay Heros", "Results may not be 100% accurate.");
-            var qpHerolist = profile.competitiveStats.careerStats.Where(x => x.Value.game.timePlayed != "--").ToDictionary(x => x.Key, x => x.Value);
+            var qpHerolist = profile.quickPlayStats.careerStats.Where(x => x.Value.game.timePlayed != "--").ToDictionary(x => x.Key, x => x.Value);
             var ordered = qpHerolist.OrderByDescending(x => x.Value.game.gamesWon).ToDictionary(x => x.Key, x => x.Value);
             using(var enumerator = ordered.GetEnumerator())
             {
