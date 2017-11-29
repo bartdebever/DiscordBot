@@ -70,18 +70,7 @@ namespace DiscordBot.Modules
         {
             Discord.EmbedBuilder builder = null;
             var tournament = RequestHandler.GetTournamentRoot(name);
-            //var selectedEvent = tournament.entities.Event.FirstOrDefault(x => x.name.ToLower() == eventname.ToLower());
             var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
-            //var defaultPhase = bracketPhases.Where(x => x.isDefault).ToList();
-            //if (bracketPhases.Count() > 1)
-            //{
-            //    var games = tournament.entities.videogame;
-            //    //Specify game
-            //    builder = Builders.ErrorBuilder("Too many games!");
-            //    //builder.AddField()
-            //}
-            //else
-            //{
             var icon = tournament.entities.tournament.images.FirstOrDefault(x => x.type == "profile");
             string url = "";
             if (icon != null) url = icon.url;
@@ -103,7 +92,7 @@ namespace DiscordBot.Modules
                     for (int i = 0; i < playerCount; i++)
                     {
                         var player = players.Where(x => Convert.ToInt64(x.EntrantId) == seeds[i].EntrantId).ToList();
-                        if (player.Count > 1)
+                        if (player.Count == 2)
                         {
                             var player1 = "";
                             var player2 = "";
@@ -147,8 +136,6 @@ namespace DiscordBot.Modules
                 }
 
             }
-
-            //}
             var tournamentDate = new DateTime(1970, 1, 1, 0, 0, 0);
             tournamentDate = tournamentDate.AddSeconds(tournament.entities.tournament.endAt);
             TimeSpan duration = DateTime.Now - tournamentDate;
