@@ -75,6 +75,28 @@ namespace SmashGgHandler
         [JsonProperty("event")]
         public List<Event> Event{ get; set; }
         public List<VideoGame> videogame { get; set; }
+        public List<Phase> phase { get; set; }
+        public List<Group> groups { get; set; }
+    }
+    public class TiebreakOrder
+    {
+        public string type { get; set; }
+        public List<object> inputs { get; set; }
+    }
 
+    public class Group
+    {
+        public int id { get; set; }
+        public int phaseId { get; set; }
+        public object startAt { get; set; }
+        public object startedAt { get; set; }
+    }
+
+    public class Phase
+    {
+        public int id { get; set; }
+        public int eventId { get; set; }
+        public bool isDefault { get; set; }
+        public int groupCount { get; set; }
     }
 }

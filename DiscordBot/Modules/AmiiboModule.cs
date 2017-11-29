@@ -21,11 +21,11 @@ namespace DiscordBot.Modules
             {
                 Discord.EmbedBuilder builder = Builders.BaseBuilder("", "", Color.DarkMagenta,
                     new EmbedAuthorBuilder().WithName("AmiiboAPI's Results").WithUrl("http://www.amiiboapi.com"), null);
-                builder.AddField("General Information",
+                builder.AddInlineField("General Information",
                     "**Name: **" + amiibo.Name + "\n"+
                     "**Amiibo Series: **" + amiibo.Series +"\n"+
                     "**Game Series: **" + amiibo.GameSeries);
-                builder.AddField("Releases",
+                builder.AddInlineField("Releases",
                     "**NA:** " + Convert.ToDateTime(amiibo.Releases.na).ToLongDateString() + "\n" +
                     "**EU: **" + Convert.ToDateTime(amiibo.Releases.eu).ToLongDateString() + "\n" +
                     "**JP: **" + Convert.ToDateTime(amiibo.Releases.jp).ToLongDateString() + "\n" +

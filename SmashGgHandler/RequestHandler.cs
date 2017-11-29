@@ -14,5 +14,11 @@ namespace SmashGgHandler
             var json = RequestBuilder.GetTournamentInfoJson(name.Replace(" ", "-"));
             return JsonConvert.DeserializeObject<TournamentRoot>(json);
         }
+
+        public static ResultRoot GetResult(int groupId)
+        {
+            var json = RequestBuilder.GetTournamentResultJson(groupId);
+            return JsonConvert.DeserializeObject<ResultRoot>(json);
+        }
     }
 }

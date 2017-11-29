@@ -21,7 +21,8 @@ namespace DiscordBot.Modules
             {
                 var character = RequestHandler.GetCharacterName(name);
                 Discord.EmbedBuilder builder = Builders.BaseBuilder("", "", Color.DarkTeal,
-                    new EmbedAuthorBuilder().WithName("KuroganeHammer Result:").WithUrl("http://kuroganehammer.com"), character.ThumbnailURL);
+                    new EmbedAuthorBuilder().WithName("KuroganeHammer Result:").WithUrl("http://kuroganehammer.com"),
+                    character.ThumbnailURL);
                 builder.WithImageUrl(character.MainImageURL);
                 builder.WithUrl(character.FullURL);
                 string info = "";
@@ -33,46 +34,16 @@ namespace DiscordBot.Modules
                 if (!string.IsNullOrEmpty(character.Style)) info += "**Style: **" + character.Style;
                 builder.AddField(new EmbedFieldBuilder().WithName("Information").WithValue(info));
                 var movement = RequestHandler.GetMovement(name);
-                string movementinfo = "";
-                //foreach (var move in movement.Attributes)
-                for(int i = 0; i< movement.Attributes.Count/3; i++)
+                var half = movement.Attributes.Count / 2;
+                var info1 = "";
+                var info2 = "";
+                for (int i = 0; i < movement.Attributes.Count / 2; i++)
                 {
-                    var info1 = "**" + movement.Attributes[i].Name + ": **" +
-                                movement.Attributes[i].Value.Replace("frames", " Frames");
-                    var info2 = "**" + movement.Attributes[i+1].Name + ": **" +
-                                movement.Attributes[i].Value.Replace("frames", " Frames");
-                    var info3 = "**" + movement.Attributes[i+2].Name + ": **" +
-                                movement.Attributes[i].Value.Replace("frames", " Frames");
-                    if (movement.Attributes[i].Name.Contains(" "))
-                    {
-                       while (info1.Length < 28)
-                        {
-                            info1 += " ";
-                        }
-                    }
-                    else
-                    {
-                        while (info1.Length < 30)
-                        {
-                            info1 = info1 + " ";
-                        }
-                    }
-                    if (info1.Contains(".")) info1 += " ";
-
-                    while (info2.Length <30 )
-                    {
-                        info2 += " ";
-                    }
-                    movementinfo += $"{info1}{info2}{info3 + "\n"}";
-                    //if ((move.Name == "Crawl" || move.Name == "Tether") && move.Value == "No");
-                    //else
-                    //{
-                    //    move.Value = move.Value.Replace("frames", " Frames");
-                    //    movementinfo += "**" + move.Name + ": **" + move.Value + "\n";
-                    //}
-
+                    info1 += $"**{movement.Attributes[i].Name}**: {movement.Attributes[i].Value}\n";
+                    info2 += $"**{movement.Attributes[i+half].Name}**: {movement.Attributes[i+half].Value}\n";
                 }
-                builder.AddField(new EmbedFieldBuilder().WithName("Movement").WithValue(movementinfo));
+                builder.AddInlineField("Movement", info1);
+                builder.AddInlineField("Information", info2);
                 await ReplyAsync("", embed: builder.Build());
             }
         }

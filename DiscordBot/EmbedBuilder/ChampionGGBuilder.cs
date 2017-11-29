@@ -15,16 +15,16 @@ namespace DiscordBot.EmbedBuilder
         {
             var builder = Builders.BaseBuilder("", "", Color.Magenta,
                 new EmbedAuthorBuilder().WithName("Champion.gg information").WithUrl("http://champion.gg"), "");
-            builder.AddField("Champion Information",
+            builder.AddInlineField("Champion Information",
                 $"**Champion: **{Temp.GetChampionName(champion.ChampionId)}\n" +
                 $"**Role: **{champion.Role}\n" +
                 $"**Patch: **{champion.Patch}");
-            builder.AddField("Overall Statistics:",
+            builder.AddInlineField("Overall Statistics:",
                 $"**WinRate: **{Math.Round(champion.WinRate*100, 2)}%\n" +
                 $"**PlayRate: **{Math.Round(champion.PlayRate*100, 2)}%\n" +
                 $"**Role Played Percentage: **{Math.Round(champion.PercentageRolePlayed*100, 2)}%\n" +
                 $"**Total Games Played: **{champion.TotalGamesPlayed}");
-            builder.AddField("Position Placings:",
+            builder.AddInlineField("Position Placings:",
                 $"**Kills: ** {champion.PositionData.Kills}th\n" +
                 $"**Deaths: **{champion.PositionData.Deaths}th\n" +
                 $"**Assists: **{champion.PositionData.Assists}th\n" +
@@ -32,7 +32,7 @@ namespace DiscordBot.EmbedBuilder
                 $"**WinRate: **{champion.PositionData.WinRates}th\n" +
                 $"**BanRate: **{champion.PositionData.BanRates}th\n" +
                 $"**PickRate: **{champion.PositionData.PlayRates}th");
-            builder.AddField("Average Statistics:",
+            builder.AddInlineField("Average Statistics:",
                 $"**Kills: **{Math.Round(champion.AverageKills, 3)}\n" +
                 $"**Deaths: **{Math.Round(champion.AverageDeaths, 3)}\n" +
                 $"**Assists: **{Math.Round(champion.AverageAssists, 3)}\n" +

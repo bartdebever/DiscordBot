@@ -65,31 +65,47 @@ namespace DiscordBot.Modules
                 $"**QuickPlay Games Won: **{profile.quickPlayStats.games.won}\n" +
                 $"**Competitive:**\n" +
                 $"- Games Played: {profile.competitiveStats.games.played}\n" +
-                $"- Games Won: {profile.competitiveStats.games.won}");
-            var qpHerolist = profile.competitiveStats.careerStats.Where(x => x.Value.game.timePlayed != "--").ToDictionary(x=> x.Key, x=> x.Value);
-            var orderedList = qpHerolist.OrderByDescending(x => x.Value.game.gamesWon).ToDictionary(x => x.Key, x => x.Value);
+                $"- Games Won: {profile.competitiveStats.games.won}\n");
+            var cpHerolist = profile.competitiveStats.careerStats.Where(x => x.Value.game.timePlayed != "--").ToDictionary(x=> x.Key, x=> x.Value);
+            var orderedList = cpHerolist.OrderByDescending(x => x.Value.game.gamesWon).ToDictionary(x => x.Key, x => x.Value);
             var count = 3;
             if (orderedList.Count() < count) count = orderedList.Count();
-            string info = "";
-            var enumerator = orderedList.GetEnumerator();
-            enumerator.MoveNext(); //Skip AllHeroes
-            for (int i = 0; i < count; i++)
+            builder.AddField("Top 3 Competitive Heroes", "Results may not be 100% accurate");
+            using (var enumerator = orderedList.GetEnumerator())
             {
-                enumerator.MoveNext();
-                var hero = enumerator.Current;
-                info += $"**{FirstCharToUpper(hero.Key)}: **" +
-                        $"\nPlaytime: {hero.Value.game.timePlayed}\n" +
+
+                enumerator.MoveNext(); //Skip AllHeroes
+                for (int i = 0; i < count; i++)
+                {
+                    enumerator.MoveNext();
+                    var hero = enumerator.Current;
+                    builder.AddInlineField(FirstCharToUpper(hero.Key),
+                        $"Playtime: {hero.Value.game.timePlayed}\n" +
                         $"Eliminations: {hero.Value.combat.eliminations}\n" +
                         $"Solo Kills: {hero.Value.combat.soloKills}\n" +
                         $"Deaths: {hero.Value.deaths.deaths}\n" +
-                        $"Weapon Accuracy: {hero.Value.combat.weaponAccuracy}\n";
-                
+                        $"Weapon Accuracy: {hero.Value.combat.weaponAccuracy}\n");
+
+                }
             }
-            enumerator.Dispose();
-            builder.AddField("Hero Statistics Competitive",
-                $"**Top 3 Heroes:**\n" +
-                //$"{qpHerolist[0].Name}: {qpHerolist[0].Data.game.timePlayed}");
-            info);
+            builder.AddField("Top 3 QuickPlay Heros", "Results may not be 100% accurate.");
+            var qpHerolist = profile.competitiveStats.careerStats.Where(x => x.Value.game.timePlayed != "--").ToDictionary(x => x.Key, x => x.Value);
+            var ordered = qpHerolist.OrderByDescending(x => x.Value.game.gamesWon).ToDictionary(x => x.Key, x => x.Value);
+            using(var enumerator = ordered.GetEnumerator())
+            {
+                enumerator.MoveNext(); //Skip AllHeroes
+                for (int i = 0; i < count; i++)
+                {
+                    enumerator.MoveNext();
+                    var hero = enumerator.Current;
+                    builder.AddInlineField(FirstCharToUpper(hero.Key),
+                        $"Playtime: {hero.Value.game.timePlayed}\n" +
+                        $"Eliminations: {hero.Value.combat.eliminations}\n" +
+                        $"Solo Kills: {hero.Value.combat.soloKills}\n" +
+                        $"Deaths: {hero.Value.deaths.deaths}\n" +
+                        $"Weapon Accuracy: {hero.Value.combat.weaponAccuracy}\n");
+                }
+            }
             await ReplyAsync("", embed: builder.Build());
         }
         public static string FirstCharToUpper(string input)
