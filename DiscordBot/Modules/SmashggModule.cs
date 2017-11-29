@@ -158,9 +158,9 @@ namespace DiscordBot.Modules
         [Command("performance")]
         public async Task PlayerPerformance(string playerName, [Remainder] string tournamentName)
         {
-            Discord.EmbedBuilder builder = Builders.BaseBuilder(playerName + "results for " + tournamentName, "", Color.Red, null, "");
             var tournament = RequestHandler.GetTournamentRoot(tournamentName);
             var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
+            Discord.EmbedBuilder builder = Builders.BaseBuilder(playerName + " Results For " + tournament.entities.tournament.name, "", Color.Red, null, "");
             foreach (var bracketPhase in bracketPhases)
             {
                 var phaseId = bracketPhase.id;
@@ -172,6 +172,7 @@ namespace DiscordBot.Modules
                     .ToList();
                 if (player.Count == 1) //player is found, lets go
                 {
+                    builder.WithTitle($"{player[0].GamerTag} Results at {tournament.entities.tournament.name}");
                     var sets = result.Entities.Sets.Where(x =>
                         x.Entrant1Id == Convert.ToInt64(player[0].EntrantId) ||
                         x.Entrant2Id == Convert.ToInt64(player[0].EntrantId)).ToList();
@@ -221,14 +222,14 @@ namespace DiscordBot.Modules
                         {
                             string gameinfo = "";
                             foreach (var game in set.Games)
-                            {
+                            { 
                                 gameinfo +=
-                                    $"{characters[(int) game.Entrant1P1CharacterId -1]} {game.Entrant1P1Stocks} - {game.Entrant2P1Stocks} {characters[(int) game.Entrant2P1CharacterId-1]}\n";
+                                    $"{characters[(int) game.Entrant1P1CharacterId - 1]} {game.Entrant1P1Stocks} - {game.Entrant2P1Stocks} {characters[(int) game.Entrant2P1CharacterId - 1]}\n";
                             }
                             if (gameinfo == "") gameinfo = "Nothing available";
-                            if (playerPlace == 1)
+                            if (playerPlace == 1 && set.Entrant1Score != null && set.Entrant2Score != null)
                                 builder.AddField($"{player[0].GamerTag} - {player2.GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}", gameinfo);
-                            else
+                            else if(set.Entrant1Score != null && set.Entrant2Score != null)
                                 builder.AddField(
                                     $"{player2.GamerTag} - {player[0].GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}",
                                     gameinfo);
