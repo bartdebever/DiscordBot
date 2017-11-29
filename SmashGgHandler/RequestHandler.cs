@@ -20,5 +20,10 @@ namespace SmashGgHandler
             var json = RequestBuilder.GetTournamentResultJson(groupId);
             return JsonConvert.DeserializeObject<ResultRoot>(json);
         }
+        public static ResultRoot GetResultSets(int groupId)
+        {
+            var json = RequestBuilder.GetTournamentResultSetsJson(groupId);
+            return JsonConvert.DeserializeObject<ResultRoot>(json);
+        }
     }
 }

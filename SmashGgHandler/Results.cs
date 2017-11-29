@@ -40,6 +40,8 @@ namespace SmashGgHandler
         //public List<RankingSery> RankingSeries { get; set; }
         [JsonProperty("seeds")]
         public List<Seed> Seeds { get; set; }
+        [JsonProperty("sets")]
+        public List<Set> Sets { get; set; }
     }
 
     public partial class RankingSery
@@ -531,5 +533,386 @@ namespace SmashGgHandler
 
         [JsonProperty("unverified")]
         public bool Unverified { get; set; }
+    }
+    public partial class Set
+    {
+        [JsonProperty("adminMessagedAt")]
+        public object AdminMessagedAt { get; set; }
+
+        [JsonProperty("adminMessagedBy")]
+        public object AdminMessagedBy { get; set; }
+
+        [JsonProperty("adminViewedAt")]
+        public object AdminViewedAt { get; set; }
+
+        [JsonProperty("adminViewedBy")]
+        public object AdminViewedBy { get; set; }
+
+        [JsonProperty("bestOf")]
+        public long BestOf { get; set; }
+
+        [JsonProperty("bracketId")]
+        public string BracketId { get; set; }
+
+        [JsonProperty("completedAt")]
+        public double? CompletedAt { get; set; }
+
+        [JsonProperty("createdAt")]
+        public long CreatedAt { get; set; }
+
+        [JsonProperty("crewPlayerCount")]
+        public object CrewPlayerCount { get; set; }
+
+        [JsonProperty("displayRound")]
+        public double DisplayRound { get; set; }
+
+        [JsonProperty("durationSeconds")]
+        public long? DurationSeconds { get; set; }
+
+        [JsonProperty("entrant1CharacterIds")]
+        public List<long> Entrant1CharacterIds { get; set; }
+
+        [JsonProperty("entrant1Id")]
+        public long? Entrant1Id { get; set; }
+
+        [JsonProperty("entrant1PrereqCondition")]
+        public string Entrant1PrereqCondition { get; set; }
+
+        [JsonProperty("entrant1PrereqId")]
+        public long? Entrant1PrereqId { get; set; }
+
+        [JsonProperty("entrant1PrereqStr")]
+        public string Entrant1PrereqStr { get; set; }
+
+        [JsonProperty("entrant1PrereqType")]
+        public string Entrant1PrereqType { get; set; }
+
+        [JsonProperty("entrant1Present")]
+        public bool? Entrant1Present { get; set; }
+
+        [JsonProperty("entrant1Score")]
+        public double? Entrant1Score { get; set; }
+
+        [JsonProperty("entrant2CharacterIds")]
+        public List<long> Entrant2CharacterIds { get; set; }
+
+        [JsonProperty("entrant2Id")]
+        public long? Entrant2Id { get; set; }
+
+        [JsonProperty("entrant2PrereqCondition")]
+        public string Entrant2PrereqCondition { get; set; }
+
+        [JsonProperty("entrant2PrereqId")]
+        public long? Entrant2PrereqId { get; set; }
+
+        [JsonProperty("entrant2PrereqStr")]
+        public string Entrant2PrereqStr { get; set; }
+
+        [JsonProperty("entrant2PrereqType")]
+        public string Entrant2PrereqType { get; set; }
+
+        [JsonProperty("entrant2Present")]
+        public bool? Entrant2Present { get; set; }
+
+        [JsonProperty("entrant2Score")]
+        public double? Entrant2Score { get; set; }
+
+        [JsonProperty("eventId")]
+        public long EventId { get; set; }
+
+        [JsonProperty("eventType")]
+        public long EventType { get; set; }
+
+        [JsonProperty("expand")]
+        public List<string> Expand { get; set; }
+
+        [JsonProperty("fbUrl")]
+        public object FbUrl { get; set; }
+
+        [JsonProperty("fullRoundText")]
+        public string FullRoundText { get; set; }
+
+        [JsonProperty("games")]
+        public List<Game> Games { get; set; }
+
+        [JsonProperty("hasPlaceholder")]
+        public bool HasPlaceholder { get; set; }
+
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("identifier")]
+        public string Identifier { get; set; }
+
+        [JsonProperty("images")]
+        public List<object> Images { get; set; }
+
+        [JsonProperty("isGF")]
+        public bool IsGF { get; set; }
+
+        [JsonProperty("isLast")]
+        public bool IsLast { get; set; }
+
+        [JsonProperty("isTiebreak")]
+        public object IsTiebreak { get; set; }
+
+        [JsonProperty("lEligiblePhaseId")]
+        public object LEligiblePhaseId { get; set; }
+
+        [JsonProperty("lOverallPlacement")]
+        public long? LOverallPlacement { get; set; }
+
+        [JsonProperty("lPlacement")]
+        public long? LPlacement { get; set; }
+
+        [JsonProperty("lProgressionSeedId")]
+        public object LProgressionSeedId { get; set; }
+
+        [JsonProperty("loserId")]
+        public long? LoserId { get; set; }
+
+        [JsonProperty("midRoundText")]
+        public string MidRoundText { get; set; }
+
+        [JsonProperty("modRequestedAt")]
+        public object ModRequestedAt { get; set; }
+
+        [JsonProperty("modRequestedBy")]
+        public object ModRequestedBy { get; set; }
+
+        [JsonProperty("originalRound")]
+        public double OriginalRound { get; set; }
+
+        [JsonProperty("phaseGroupId")]
+        public long PhaseGroupId { get; set; }
+
+        [JsonProperty("progressionCount")]
+        public object ProgressionCount { get; set; }
+
+        [JsonProperty("progressionPlacement")]
+        public object ProgressionPlacement { get; set; }
+
+        [JsonProperty("round")]
+        public double Round { get; set; }
+
+        [JsonProperty("roundDivision")]
+        public long? RoundDivision { get; set; }
+
+        [JsonProperty("setGamesType")]
+        public object SetGamesType { get; set; }
+
+        [JsonProperty("shortRoundText")]
+        public string ShortRoundText { get; set; }
+
+        [JsonProperty("smashggUrl")]
+        public object SmashggUrl { get; set; }
+
+        [JsonProperty("startAt")]
+        public long? StartAt { get; set; }
+
+        [JsonProperty("startedAt")]
+        public long? StartedAt { get; set; }
+
+        [JsonProperty("state")]
+        public long State { get; set; }
+
+        [JsonProperty("stationId")]
+        public long? StationId { get; set; }
+
+        [JsonProperty("streamId")]
+        public object StreamId { get; set; }
+
+        [JsonProperty("subState")]
+        public List<object> SubState { get; set; }
+
+        [JsonProperty("tasksPruned")]
+        public bool? TasksPruned { get; set; }
+
+        [JsonProperty("totalGames")]
+        public object TotalGames { get; set; }
+
+        [JsonProperty("type")]
+        public long Type { get; set; }
+
+        [JsonProperty("unreachable")]
+        public object Unreachable { get; set; }
+
+        [JsonProperty("updatedAt")]
+        public long UpdatedAt { get; set; }
+
+        [JsonProperty("updatedAtMicro")]
+        public double? UpdatedAtMicro { get; set; }
+
+        [JsonProperty("videogameId")]
+        public long VideogameId { get; set; }
+
+        [JsonProperty("vodUrl")]
+        public object VodUrl { get; set; }
+
+        [JsonProperty("wEligiblePhaseId")]
+        public object WEligiblePhaseId { get; set; }
+
+        [JsonProperty("wOverallPlacement")]
+        public long? WOverallPlacement { get; set; }
+
+        [JsonProperty("wPlacement")]
+        public long? WPlacement { get; set; }
+
+        [JsonProperty("wProgressionSeedId")]
+        public object WProgressionSeedId { get; set; }
+
+        [JsonProperty("winnerId")]
+        public long? WinnerId { get; set; }
+    }
+    public partial class Game
+    {
+        [JsonProperty("createdAt")]
+        public long? CreatedAt { get; set; }
+
+        [JsonProperty("entrant1Id")]
+        public long? Entrant1Id { get; set; }
+
+        [JsonProperty("entrant1P1CharacterId")]
+        public double? Entrant1P1CharacterId { get; set; }
+
+        [JsonProperty("entrant1P1ParticipantId")]
+        public double? Entrant1P1ParticipantId { get; set; }
+
+        [JsonProperty("entrant1P1Stocks")]
+        public long? Entrant1P1Stocks { get; set; }
+
+        [JsonProperty("entrant1P1StocksInitial")]
+        public double? Entrant1P1StocksInitial { get; set; }
+
+        [JsonProperty("entrant1P2CharacterId")]
+        public double? Entrant1P2CharacterId { get; set; }
+
+        [JsonProperty("entrant1P2ParticipantId")]
+        public double? Entrant1P2ParticipantId { get; set; }
+
+        [JsonProperty("entrant1P2Stocks")]
+        public double? Entrant1P2Stocks { get; set; }
+
+        [JsonProperty("entrant1P2StocksInitial")]
+        public double? Entrant1P2StocksInitial { get; set; }
+
+        [JsonProperty("entrant2Id")]
+        public long? Entrant2Id { get; set; }
+
+        [JsonProperty("entrant2P1CharacterId")]
+        public long? Entrant2P1CharacterId { get; set; }
+
+        [JsonProperty("entrant2P1ParticipantId")]
+        public double? Entrant2P1ParticipantId { get; set; }
+
+        [JsonProperty("entrant2P1Stocks")]
+        public long? Entrant2P1Stocks { get; set; }
+
+        [JsonProperty("entrant2P1StocksInitial")]
+        public double? Entrant2P1StocksInitial { get; set; }
+
+        [JsonProperty("entrant2P2CharacterId")]
+        public double? Entrant2P2CharacterId { get; set; }
+
+        [JsonProperty("entrant2P2ParticipantId")]
+        public double? Entrant2P2ParticipantId { get; set; }
+
+        [JsonProperty("entrant2P2Stocks")]
+        public double? Entrant2P2Stocks { get; set; }
+
+        [JsonProperty("entrant2P2StocksInitial")]
+        public double? Entrant2P2StocksInitial { get; set; }
+
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("loserId")]
+        public long LoserId { get; set; }
+
+        [JsonProperty("loserP1CharacterId")]
+        public double? LoserP1CharacterId { get; set; }
+
+        [JsonProperty("loserP1Stocks")]
+        public double? LoserP1Stocks { get; set; }
+
+        [JsonProperty("loserP2CharacterId")]
+        public double? LoserP2CharacterId { get; set; }
+
+        [JsonProperty("loserP2Stocks")]
+        public double? LoserP2Stocks { get; set; }
+
+        [JsonProperty("orderNum")]
+        public string OrderNum { get; set; }
+
+        [JsonProperty("sGameId")]
+        public object SGameId { get; set; }
+
+        [JsonProperty("selections")]
+        public Dictionary<string, Dictionary<string, List<Character>>> Selections { get; set; }
+
+        [JsonProperty("setId")]
+        public long SetId { get; set; }
+
+        [JsonProperty("stageId")]
+        public double? StageId { get; set; }
+
+        [JsonProperty("startedAt")]
+        public double? StartedAt { get; set; }
+
+        [JsonProperty("startingEntrantId")]
+        public double? StartingEntrantId { get; set; }
+
+        [JsonProperty("state")]
+        public long State { get; set; }
+
+        [JsonProperty("updatedAt")]
+        public long UpdatedAt { get; set; }
+
+        [JsonProperty("winnerId")]
+        public long WinnerId { get; set; }
+
+        [JsonProperty("winnerP1CharacterId")]
+        public int? WinnerP1CharacterId { get; set; }
+
+        [JsonProperty("winnerP1Stocks")]
+        public int? WinnerP1Stocks { get; set; }
+
+        [JsonProperty("winnerP2CharacterId")]
+        public  int? WinnerP2CharacterId { get; set; }
+
+        [JsonProperty("winnerP2Stocks")]
+        public int? WinnerP2Stocks { get; set; }
+    }
+    public partial class Character
+    {
+        [JsonProperty("createdAt")]
+        public long CreatedAt { get; set; }
+
+        [JsonProperty("entrantId")]
+        public long EntrantId { get; set; }
+
+        [JsonProperty("gameId")]
+        public long GameId { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("orderNum")]
+        public object OrderNum { get; set; }
+
+        [JsonProperty("participantId")]
+        public object ParticipantId { get; set; }
+
+        [JsonProperty("selectionType")]
+        public string SelectionType { get; set; }
+
+        [JsonProperty("selectionValue")]
+        public long SelectionValue { get; set; }
+
+        [JsonProperty("setId")]
+        public long SetId { get; set; }
+
+        [JsonProperty("updatedAt")]
+        public long UpdatedAt { get; set; }
     }
 }

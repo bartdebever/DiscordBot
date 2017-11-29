@@ -154,5 +154,91 @@ namespace DiscordBot.Modules
             }
             
         }
+
+        [Command("performance")]
+        public async Task PlayerPerformance(string playerName, [Remainder] string tournamentName)
+        {
+            Discord.EmbedBuilder builder = Builders.BaseBuilder(playerName + "results for " + tournamentName, "", Color.Red, null, "");
+            var tournament = RequestHandler.GetTournamentRoot(tournamentName);
+            var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
+            foreach (var bracketPhase in bracketPhases)
+            {
+                var phaseId = bracketPhase.id;
+                var selectedEvent = tournament.entities.Event.FirstOrDefault(x => x.id == bracketPhase.eventId);
+                var group = tournament.entities.groups.FirstOrDefault(x => x.phaseId == phaseId);
+                var result = RequestHandler.GetResultSets(group.id);
+                var players = result.Entities.Player;
+                var player = players.Where(x => x.GamerTag.ToLower().Trim().Contains(playerName.ToLower().Trim()))
+                    .ToList();
+                if (player.Count == 1) //player is found, lets go
+                {
+                    var sets = result.Entities.Sets.Where(x =>
+                        x.Entrant1Id == Convert.ToInt64(player[0].EntrantId) ||
+                        x.Entrant2Id == Convert.ToInt64(player[0].EntrantId)).ToList();
+                    string setinfo = "";
+                    sets = sets.OrderBy(x => x.CompletedAt).ToList();
+                    var characters = new List<string>()
+                    {
+                        "Bowser",
+                        "Captain Falcon",
+                        "Donkey Kong",
+                        "Dr. Mario",
+                        "Falco",
+                        "Fox",
+                        "Ganondorf",
+                        "Ice Climbers",
+                        "Jigglypuff",
+                        "Kirby",
+                        "Link",
+                        "Luigi",
+                        "Mario",
+                        "Marth",
+                        "Mewtwo",
+                        "Mr. Game And Watch",
+                        "Ness",
+                        "Peach",
+                        "Pichu",
+                        "Pikachu",
+                        "Roy",
+                        "Samus",
+                        "Sheik",
+                        "Yoshi",
+                        "Young Link",
+                        "Zelda"
+                    };
+                    foreach (var set in sets)
+                    {
+                        int playerPlace = 1;
+                        Player player2 = null;
+                        if (Convert.ToInt64(player[0].EntrantId) == set.Entrant1Id)
+                            player2 = players.FirstOrDefault(x => set.Entrant2Id == Convert.ToInt64(x.EntrantId));
+                        else
+                        {
+                            player2 = players.FirstOrDefault(x => set.Entrant1Id == Convert.ToInt64(x.EntrantId));
+                            playerPlace = 2;
+                        }
+                        if (player2 != null)
+                        {
+                            string gameinfo = "";
+                            foreach (var game in set.Games)
+                            {
+                                gameinfo +=
+                                    $"{characters[(int) game.Entrant1P1CharacterId -1]} {game.Entrant1P1Stocks} - {game.Entrant2P1Stocks} {characters[(int) game.Entrant2P1CharacterId-1]}\n";
+                            }
+                            if (gameinfo == "") gameinfo = "Nothing available";
+                            if (playerPlace == 1)
+                                builder.AddField($"{player[0].GamerTag} - {player2.GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}", gameinfo);
+                            else
+                                builder.AddField(
+                                    $"{player2.GamerTag} - {player[0].GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}",
+                                    gameinfo);
+                        }
+
+                    }
+                    //builder.AddField("Results", setinfo);
+                }
+            }
+            await ReplyAsync("", embed: builder.Build());
+        }
     }
 }

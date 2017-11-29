@@ -22,5 +22,12 @@ namespace SmashGgHandler
             var request = new RestRequest($"phase_group/{groupId}?expand[]=entrants&expand[]=seeds", Method.GET);
             return client.Execute(request).Content;
         }
+
+        public static string GetTournamentResultSetsJson(int groupId)
+        {
+            var client = new RestClient(Adresses.BaseUri);
+            var request = new RestRequest($"phase_group/{groupId}?expand[]=entrants&expand[]=seeds&expand[]=sets", Method.GET);
+            return client.Execute(request).Content;
+        }
     }
 }
