@@ -24,20 +24,20 @@ namespace SmashGgHandler
 
     public partial class ResultEntities
     {
-        [JsonProperty("entrants")]
-        public List<Entrant> Entrants { get; set; }
+        //[JsonProperty("entrants")]
+        //public List<Entrant> Entrants { get; set; }
 
-        [JsonProperty("groups")]
-        public Groups Groups { get; set; }
+        //[JsonProperty("groups")]
+        //public Groups Groups { get; set; }
 
         [JsonProperty("player")]
         public List<Player> Player { get; set; }
 
-        [JsonProperty("rankingIteration")]
-        public List<RankingIteration> RankingIteration { get; set; }
+        //[JsonProperty("rankingIteration")]
+        //public List<RankingIteration> RankingIteration { get; set; }
 
-        [JsonProperty("rankingSeries")]
-        public List<RankingSery> RankingSeries { get; set; }
+        //[JsonProperty("rankingSeries")]
+        //public List<RankingSery> RankingSeries { get; set; }
         [JsonProperty("seeds")]
         public List<Seed> Seeds { get; set; }
     }
@@ -314,9 +314,6 @@ namespace SmashGgHandler
         [JsonProperty("bestOf")]
         public object BestOf { get; set; }
 
-        [JsonProperty("callMatches")]
-        public object CallMatches { get; set; }
-
         [JsonProperty("canAutoAssign")]
         public bool CanAutoAssign { get; set; }
 
@@ -442,17 +439,17 @@ namespace SmashGgHandler
         [JsonProperty("initialSeedNum")]
         public long InitialSeedNum { get; set; }
 
-        [JsonProperty("isPlaceholder")]
-        public object IsPlaceholder { get; set; }
+        //[JsonProperty("isPlaceholder")]
+        //public object IsPlaceholder { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("participant1Id")]
-        public object Participant1Id { get; set; }
+        //[JsonProperty("participant1Id")]
+        //public object Participant1Id { get; set; }
 
-        [JsonProperty("participant2Id")]
-        public object Participant2Id { get; set; }
+        //[JsonProperty("participant2Id")]
+        //public object Participant2Id { get; set; }
 
         [JsonProperty("participantIds")]
         public List<long> ParticipantIds { get; set; }
@@ -463,11 +460,11 @@ namespace SmashGgHandler
         [JsonProperty("prefixes")]
         public Dictionary<int, string> Prefixes { get; set; }
 
-        [JsonProperty("skill")]
-        public long Skill { get; set; }
+        //[JsonProperty("skill")]
+        //public long Skill { get; set; }
 
-        [JsonProperty("skillOrder")]
-        public long SkillOrder { get; set; }
+        //[JsonProperty("skillOrder")]
+        //public long SkillOrder { get; set; }
 
         [JsonProperty("unverified")]
         public bool Unverified { get; set; }
@@ -477,9 +474,6 @@ namespace SmashGgHandler
     {
         [JsonProperty("checkInState")]
         public long CheckInState { get; set; }
-
-        [JsonProperty("disqualified")]
-        public object Disqualified { get; set; }
 
         [JsonProperty("entrantId")]
         public long EntrantId { get; set; }
@@ -497,16 +491,16 @@ namespace SmashGgHandler
         public bool IsBye { get; set; }
 
         [JsonProperty("isDisqualified")]
-        public bool IsDisqualified { get; set; }
+        public bool? IsDisqualified { get; set; }
 
         [JsonProperty("isEligible")]
-        public bool IsEligible { get; set; }
+        public bool? IsEligible { get; set; }
 
         [JsonProperty("isFinal")]
-        public bool IsFinal { get; set; }
+        public bool? IsFinal { get; set; }
 
         [JsonProperty("isSeeded")]
-        public bool IsSeeded { get; set; }
+        public bool? IsSeeded { get; set; }
 
         [JsonProperty("losses")]
         public long Losses { get; set; }
@@ -518,10 +512,10 @@ namespace SmashGgHandler
         public long PhaseId { get; set; }
 
         [JsonProperty("phaseLinkId")]
-        public long PhaseLinkId { get; set; }
+        public long? PhaseLinkId { get; set; }
 
         [JsonProperty("placement")]
-        public long Placement { get; set; }
+        public long? Placement { get; set; }
 
         [JsonProperty("prereqProgressionId")]
         public object PrereqProgressionId { get; set; }

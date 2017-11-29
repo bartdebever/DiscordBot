@@ -35,7 +35,7 @@ namespace SmashGgHandler
 
     public class TournamentImage
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string type { get; set; }
         public string url { get; set; }
     }
@@ -48,8 +48,8 @@ namespace SmashGgHandler
         public string name { get; set; }
         public string description { get; set; }
         public string slug { get; set; }
-        public int entrantSizeMin { get; set; }
-        public int entrantSizeMax { get; set; }
+        public int? entrantSizeMin { get; set; }
+        public int? entrantSizeMax { get; set; }
         public long startAt { get; set; }
         public long endAt { get; set; }
 

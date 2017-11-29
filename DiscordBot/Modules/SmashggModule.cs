@@ -70,33 +70,102 @@ namespace DiscordBot.Modules
         {
             Discord.EmbedBuilder builder = null;
             var tournament = RequestHandler.GetTournamentRoot(name);
+            //var selectedEvent = tournament.entities.Event.FirstOrDefault(x => x.name.ToLower() == eventname.ToLower());
             var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
-            var defaultPhase = bracketPhases.Where(x => x.isDefault).ToList();
-            if (defaultPhase.Count() > 1)
+            //var defaultPhase = bracketPhases.Where(x => x.isDefault).ToList();
+            //if (bracketPhases.Count() > 1)
+            //{
+            //    var games = tournament.entities.videogame;
+            //    //Specify game
+            //    builder = Builders.ErrorBuilder("Too many games!");
+            //    //builder.AddField()
+            //}
+            //else
+            //{
+            var icon = tournament.entities.tournament.images.FirstOrDefault(x => x.type == "profile");
+            string url = "";
+            if (icon != null) url = icon.url;
+            builder = Builders.BaseBuilder(tournament.entities.tournament.name, "", Color.DarkOrange, null, url);
+            foreach (var bracketPhase in bracketPhases)
             {
-                var games = tournament.entities.videogame;
-                //Specify game
-            }
-            else
-            {
-                var phaseId = defaultPhase[0].id;
+                var phaseId = bracketPhase.id;
+                var selectedEvent = tournament.entities.Event.FirstOrDefault(x => x.id == bracketPhase.eventId);
                 var group = tournament.entities.groups.FirstOrDefault(x => x.phaseId == phaseId);
                 var result = RequestHandler.GetResult(group.id);
                 var players = result.Entities.Player;
-                var seeds = result.Entities.Seeds.OrderBy(x=> x.Placement).ToList(); //Results sorted by ranking
-                int playerCount = 10;
-                if (seeds.Count < playerCount) playerCount = seeds.Count;
-                string placementInfo = "";
-                for (int i = 0; i < playerCount; i++)
+                if (players != null)
                 {
-                    var player = players.FirstOrDefault(x => Convert.ToInt64(x.EntrantId) == seeds[i].EntrantId);
-                    if (player != null) placementInfo += $"{seeds[i].Placement}: {player.GamerTag}\n";
+                    var seedlist = result.Entities.Seeds.Where(x => x.Placement != null).ToList();
+                    var seeds = seedlist.OrderBy(x => x.Placement).ToList(); //Results sorted by ranking
+                    int playerCount = 10;
+                    if (seeds.Count < playerCount) playerCount = seeds.Count;
+                    string placementInfo = "";
+                    for (int i = 0; i < playerCount; i++)
+                    {
+                        var player = players.Where(x => Convert.ToInt64(x.EntrantId) == seeds[i].EntrantId).ToList();
+                        if (player.Count > 1)
+                        {
+                            var player1 = "";
+                            var player2 = "";
+                            if (!string.IsNullOrEmpty(player[0].Prefix))
+                            {
+                                player1 = $"**{player[0].Prefix}** {player[0].GamerTag}";
+                            }
+                            else
+                            {
+                                player1 = $"{player[0].GamerTag}";
+                            }
+                            if (!string.IsNullOrEmpty(player[1].Prefix))
+                            {
+                                player2 = $"**{player[1].Prefix}** {player[1].GamerTag}";
+                            }
+                            else
+                            {
+                                player2 = $"{player[1].GamerTag}";
+                            }
+
+                            placementInfo +=
+                                $"{seeds[0].Placement}: {player1} | {player2}\n";
+                        }
+                        else
+                        {
+                            var player1 = "";
+                            if (!string.IsNullOrEmpty(player[0].Prefix))
+                            {
+                                player1 = $"**{player[0].Prefix}** {player[0].GamerTag}";
+                            }
+                            else
+                            {
+                                player1 = $"{player[0].GamerTag}";
+                            }
+                            if (player[0] != null) placementInfo += $"{seeds[i].Placement}: {player1}\n";
+                        }
+                        
+                    }
+                    if (!string.IsNullOrEmpty(placementInfo))
+                        builder.AddInlineField($"{selectedEvent.name} Results", placementInfo);
                 }
-                builder = Builders.BaseBuilder(tournament.entities.tournament.name, "", Color.DarkOrange, null,
-                    tournament.entities.tournament.images.FirstOrDefault(x => x.type == "profile").url);
-                builder.AddField("Results", placementInfo);
+
             }
-            await ReplyAsync("", embed: builder.Build());
+
+            //}
+            var tournamentDate = new DateTime(1970, 1, 1, 0, 0, 0);
+            tournamentDate = tournamentDate.AddSeconds(tournament.entities.tournament.endAt);
+            TimeSpan duration = DateTime.Now - tournamentDate;
+            if ((duration.Days < 7 || duration.Days < 0) && Context.Guild != null)
+            {
+                var spoiled = Builders.BaseBuilder("Spoiler preventer!", "", Color.Red, null, "");
+                spoiled.AddField("Spoiler prevented!",
+                    "To prevent spoiling tournament results for people, we only allow tournaments older than a week to be shown in servers.\nThe embed has been DMed to you ;)");
+                await ReplyAsync("", embed: spoiled.Build());
+                await Context.Message.Author.GetOrCreateDMChannelAsync().Result
+                    .SendMessageAsync("", embed: builder.Build());
+            }
+            else
+            {
+                await ReplyAsync("", embed: builder.Build());
+            }
+            
         }
     }
 }
