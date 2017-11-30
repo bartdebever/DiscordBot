@@ -16,13 +16,14 @@ namespace DiscordBot.Modules
         [Command("tournament")]
         public async Task GetInfo([Remainder] string name)
         {
+            Discord.EmbedBuilder builder = null;
             var root = RequestHandler.GetTournamentRoot(name);
-            if (root != null)
+            if (root.entities != null)
             {
                 if (!root.entities.tournament.Private)
                 {
                     var tournament = root.entities.tournament;
-                    var builder = Builders.BaseBuilder(tournament.name, "", Color.DarkGreen, null,
+                    builder = Builders.BaseBuilder(tournament.name, "", Color.DarkGreen, null,
                         null);
                     var baseDate = new DateTime(1970, 1, 1, 0, 0, 0);
                     var startDate = baseDate.AddSeconds(tournament.startAt);
@@ -51,18 +52,19 @@ namespace DiscordBot.Modules
                     if (image != null) builder.WithThumbnailUrl(image.url);
                     var banner = tournament.images.FirstOrDefault(x => x.type == "banner");
                     if (banner != null) builder.ImageUrl = banner.url;
-                    await ReplyAsync("", embed: builder.Build());
+                    
                 }
                 else
                 {
-                    //TODO tournament is private error
+                    builder = Builders.BaseBuilder("Tournament is private.", "", Color.Red, null, "");
+                    builder.AddField("No access", "The tournament you are trying to access is labeled as private in Smash.gg\nWhile we could technically show you the data, we decided not to be unethical and protect the user.");
                 }
             }
             else
             {
-                //TODO Tournament not found error
+                builder = Builders.BaseBuilder("Tournament was not found.", "", Color.Red, null, "");
             }
-
+            await ReplyAsync("", embed: builder.Build());
         }
 
         [Command("result")]
@@ -70,6 +72,11 @@ namespace DiscordBot.Modules
         {
             Discord.EmbedBuilder builder = null;
             var tournament = RequestHandler.GetTournamentRoot(name);
+            if (tournament.entities == null)
+            {
+                builder = Builders.BaseBuilder("Tournament not found", "", Color.Red, null, "");
+                await ReplyAsync("", embed: builder.Build());
+            }
             var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
             var icon = tournament.entities.tournament.images.FirstOrDefault(x => x.type == "profile");
             string url = "";
@@ -159,12 +166,17 @@ namespace DiscordBot.Modules
         public async Task PlayerPerformance(string playerName, [Remainder] string tournamentName)
         {
             var tournament = RequestHandler.GetTournamentRoot(tournamentName);
+            if (tournament.entities == null)
+            {
+                var embed = Builders.BaseBuilder("Tournament not found", "", Color.Red, null, "");
+                await ReplyAsync("", embed: embed.Build());
+            }
             var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
             Discord.EmbedBuilder builder = Builders.BaseBuilder(playerName + " Results For " + tournament.entities.tournament.name, "", Color.Red, null, "");
+            bool playerFound = false;
             foreach (var bracketPhase in bracketPhases)
             {
                 var phaseId = bracketPhase.id;
-                var selectedEvent = tournament.entities.Event.FirstOrDefault(x => x.id == bracketPhase.eventId);
                 var group = tournament.entities.groups.FirstOrDefault(x => x.phaseId == phaseId);
                 var result = RequestHandler.GetResultSets(group.id);
                 var players = result.Entities.Player;
@@ -172,6 +184,7 @@ namespace DiscordBot.Modules
                     .ToList();
                 if (player.Count == 1) //player is found, lets go
                 {
+                    playerFound = true;
                     builder.WithTitle($"{player[0].GamerTag} Results at {tournament.entities.tournament.name}");
                     var sets = result.Entities.Sets.Where(x =>
                         x.Entrant1Id == Convert.ToInt64(player[0].EntrantId) ||
@@ -207,8 +220,21 @@ namespace DiscordBot.Modules
                         "Young Link",
                         "Zelda"
                     };
+                    Event prevEvent = null;
+                    string eventInfo = "";
                     foreach (var set in sets)
                     {
+                        var setEvent = tournament.entities.Event.FirstOrDefault(x => x.id == set.EventId);
+                        if (prevEvent == null)
+                        {
+                            prevEvent = setEvent;
+                        }
+                        if (prevEvent.id != setEvent.id)
+                        {
+                            builder.AddInlineField(prevEvent.name, eventInfo);
+                            prevEvent = setEvent;
+                            eventInfo = "";
+                        }
                         int playerPlace = 1;
                         Player player2 = null;
                         if (Convert.ToInt64(player[0].EntrantId) == set.Entrant1Id)
@@ -222,23 +248,28 @@ namespace DiscordBot.Modules
                         {
                             string gameinfo = "";
                             foreach (var game in set.Games)
-                            { 
+                            {
                                 gameinfo +=
                                     $"{characters[(int) game.Entrant1P1CharacterId - 1]} {game.Entrant1P1Stocks} - {game.Entrant2P1Stocks} {characters[(int) game.Entrant2P1CharacterId - 1]}\n";
                             }
-                            if (gameinfo == "") gameinfo = "Nothing available";
+                            if (gameinfo == "") gameinfo = "Nothing available\n";
                             if (playerPlace == 1 && set.Entrant1Score != null && set.Entrant2Score != null)
-                                builder.AddField($"{player[0].GamerTag} - {player2.GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}", gameinfo);
-                            else if(set.Entrant1Score != null && set.Entrant2Score != null)
-                                builder.AddField(
-                                    $"{player2.GamerTag} - {player[0].GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}",
-                                    gameinfo);
+                                eventInfo +=
+                                    $"**{set.FullRoundText}:**\n{player[0].GamerTag} - {player2.GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}\n" +
+                                    gameinfo + "\n";
+                            else if (set.Entrant1Score != null && set.Entrant2Score != null)
+                                eventInfo +=
+                                    $"**{set.FullRoundText}:**\n{player2.GamerTag} - {player[0].GamerTag}: {set.Entrant1Score} - {set.Entrant2Score}\n" +
+                                    $"{gameinfo}\n";
                         }
-
                     }
-                    //builder.AddField("Results", setinfo);
+                    //builder.AddField("Results", ssetinfo);
+                    var imageurl = player[0].Images.FirstOrDefault(x => x.Type == "profile");
+                    if (imageurl != null) builder.WithThumbnailUrl(imageurl.Url);
+                    builder.AddInlineField(prevEvent.name, eventInfo);
                 }
             }
+            if (!playerFound) builder = Builders.BaseBuilder("Player not found", "", Color.Red, null, "");
             await ReplyAsync("", embed: builder.Build());
         }
     }
