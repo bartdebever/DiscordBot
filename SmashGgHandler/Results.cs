@@ -478,7 +478,7 @@ namespace SmashGgHandler
         public long CheckInState { get; set; }
 
         [JsonProperty("entrantId")]
-        public long EntrantId { get; set; }
+        public long? EntrantId { get; set; }
 
         [JsonProperty("expand")]
         public List<object> Expand { get; set; }
@@ -490,7 +490,7 @@ namespace SmashGgHandler
         public long Id { get; set; }
 
         [JsonProperty("isBye")]
-        public bool IsBye { get; set; }
+        public bool? IsBye { get; set; }
 
         [JsonProperty("isDisqualified")]
         public bool? IsDisqualified { get; set; }
