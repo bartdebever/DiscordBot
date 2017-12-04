@@ -195,6 +195,10 @@
       <Project>{21e3bfb3-819e-4785-a787-6031b62456fe}</Project>
       <Name>OverwatchHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RiotWrapper\RiotWrapper.csproj">
+      <Project>{424f1217-5f8a-49a5-b89d-f770b24f8441}</Project>
+      <Name>RiotWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmashGgHandler\SmashGgHandler.csproj">
       <Project>{e74d6cda-cc80-4a9e-974c-c93ef08bcf85}</Project>
       <Name>SmashGgHandler</Name>
