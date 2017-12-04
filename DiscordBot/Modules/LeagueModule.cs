@@ -169,20 +169,35 @@ namespace DiscordBot.Modules
         {
             var builder = Builders.BaseBuilder("", "", Color.DarkBlue,
                 new EmbedAuthorBuilder().WithName(summonername + "'s game"), "");
-            builder.AddField("Bans",
-                "**Team1: **\nChampion1, Champion2, Champion3\n**Team2: **\nChampion1, Champion2, Champion3");
-            builder.AddField("Team 1",
-                "Name1: Champion1 | Bronze5\n" +
-                "Name2: Champion2 | Bronze5\n" +
-                "Name3: Champion3 | Bronze5\n" +
-                "Name4: Champion4 | Bronze5\n" +
-                "Name5: Champion6 | Bronze5");
-            builder.AddField("Team 2",
-                "Name1: Champion1 | Bronze5\n" +
-                "Name2: Champion2 | Bronze5\n" +
-                "Name3: Champion3 | Bronze5\n" +
-                "Name4: Champion4 | Bronze5\n" +
-                "Name5: Champion6 | Bronze5");
+            builder.AddField("Information", "**Map: **Rift\n**Time: **30:30\n**Mode: **Normals");
+            builder.AddField("Bans Team1",
+                "Champion1, Champion2, Champion3, Champion4, Champion5");
+            builder.AddInlineField("Summoner", "Name1\nname2\nname3\nname4\nname5");
+            builder.AddInlineField("Champion", "champ1\nchamp2\nchamp3\nchamp4\nchamp5");
+            builder.AddInlineField("Rank","rank5\nrank5\nrank5\nrank5\nrank5");
+            builder.AddField("Bans Team2",
+                "Champion1, Champion2, Champion3, Champion4, Champion5");
+            builder.AddInlineField("Summoner", "Name1\nname2\nname3\nname4\nname5");
+            builder.AddInlineField("Champion", "champ1\nchamp2\nchamp3\nchamp4\nchamp5");
+            builder.AddInlineField("Rank", "rank5\nrank5\nrank5\nrank5\nrank5");
+            await ReplyAsync("", embed: builder.Build());
+        }
+
+        [Command("summoner")]
+        public async Task Profile(string region, [Remainder] string summonerName)
+        {
+            var builder = Builders.BaseBuilder("", "", Color.DarkBlue, new EmbedAuthorBuilder().WithName(summonerName),
+                "");
+            builder.AddInlineField("Information", $"**Name: **name\n**Region: **region\n**Level: **level");
+            builder.AddInlineField("Ranking", $"**Solo/Duo: **rank V\n**Flex: **rank V\n**3v3: **rank V");
+            builder.AddField("Top Mastery Champions", "The top 3 champions by mastery score");
+            builder.AddInlineField("Champ1", "**Level: **X\n**Score: **XXXXXXXXXX");
+            builder.AddInlineField("Champ2", "**Level: **X\n**Score: **XXXXXXXXXX");
+            builder.AddInlineField("Champ3", "**Level: **X\n**Score: **XXXXXXXXXX");
+            builder.AddField("Top Ranked Champions", "The top 3 champions by ranked played games");
+            builder.AddInlineField("Champ1", "**Games: **X\n**Average Stats:** K/D/A\n**Winrate: **XX%");
+            builder.AddInlineField("Champ2", "**Games: **X\n**Average Stats:** K/D/A\n**Winrate: **XX%");
+            builder.AddInlineField("Champ3", "**Games: **X\n**Average Stats:** K/D/A\n**Winrate: **XX%");
             await ReplyAsync("", embed: builder.Build());
         }
     }

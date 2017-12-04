@@ -160,6 +160,7 @@
     <Compile Include="Modules\Shopmodule.cs" />
     <Compile Include="Modules\SmashggModule.cs" />
     <Compile Include="Modules\SmashModule.cs" />
+    <Compile Include="Modules\TestChallenge.cs" />
     <Compile Include="Modules\TestModule.cs" />
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Program.cs" />
