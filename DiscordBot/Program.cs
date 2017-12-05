@@ -114,12 +114,13 @@ namespace DiscordBot
 
             // Either search the program and add all Module classes that can be found.
             // Module classes MUST be marked 'public' or they will be ignored.
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
+            //await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
             // Or add Modules manually if you prefer to be a little more explicit:
             //await _commands.AddModuleAsync<SomeModule>();
-            //await _commands.AddModuleAsync<TestModule>();
-            //await _commands.AddModuleAsync<UserModule>();
-            //await _commands.AddModuleAsync<ServerModule>();
+            await _commands.AddModuleAsync<SmashModule>();
+            await _commands.AddModuleAsync<AntherModule>();
+            await _commands.AddModuleAsync<AmiiboModule>();
+            await _commands.AddModuleAsync<SmashggModule>();
             // Note that the first one is 'Modules' (plural) and the second is 'Module' (singular).
 
             // Subscribe a handler to see if a message invokes a command.
