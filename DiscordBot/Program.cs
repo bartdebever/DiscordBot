@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using DataLibrary.Static_Data;
@@ -80,6 +81,22 @@ namespace DiscordBot
             // Subscribe the logging handler to both the client and the CommandService.
             _client.Log += DefaultLogger.Logger;
             _commands.Log += DefaultLogger.Logger;
+            _client.ReactionAdded += ClientOnReactionAdded;
+        }
+
+        private Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> cacheable, ISocketMessageChannel socketMessageChannel, SocketReaction arg3)
+        {
+            if ((arg3.Emote).Name == "🎉")
+            {
+                string message = arg3.User.Value.Username + ": reacted with " + "tada" + " on message: " +
+                                 arg3.MessageId;
+                if (arg3.Emote.Name != null)
+                {
+                    DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "ReactionBot", message));
+                }
+            }
+            
+            return Task.CompletedTask;
         }
 
         // Example of a logging handler. This can be re-used by addons
@@ -100,6 +117,9 @@ namespace DiscordBot
         }
 
         private IServiceProvider _services;
+
+        public List<string> EmoteInfo1 { get => EmoteInfo2; set => EmoteInfo2 = value; }
+        public List<string> EmoteInfo2 { get => EmoteInfo; set => EmoteInfo = value; }
 
         private async Task InitCommands()
         {

@@ -163,6 +163,7 @@
     <Compile Include="Static Data\ColorPicker.cs" />
     <Compile Include="Static Data\Names.cs" />
     <Compile Include="Static Data\OptionManager.cs" />
+    <Compile Include="Static Data\ReactionTracker.cs" />
     <Compile Include="Useraccounts\Implementation\APISummoner.cs" />
     <Compile Include="Useraccounts\Implementation\SmashAccount.cs" />
     <Compile Include="Useraccounts\Interfaces\ISummoner.cs" />

@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.Rest;
 using Discord.WebSocket;
 using DiscordBot.Image_generator;
 
@@ -50,6 +51,16 @@ namespace DiscordBot.Modules
             await (Context.User as IGuildUser).AddRoleAsync(
                 Context.Guild.Roles.FirstOrDefault(x => x.Name.ToLower() == role.ToLower()));
             await ReplyAsync("Given the " + role + " to " + Context.User.Username);
+        }
+
+        [Command("emote")]
+        public async Task Emote(ulong id)
+        {
+            var message = (RestUserMessage) await Context.Channel.GetMessageAsync(id);
+            foreach (var messageReaction in message.Reactions)
+            {
+                await ReplyAsync($"{messageReaction.Key.Name}: {messageReaction.Value.ReactionCount}");
+            }
         }
     }
 }
