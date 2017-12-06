@@ -272,6 +272,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -322,6 +323,10 @@
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj">
       <Project>{00725774-28A1-4DB1-A79D-6E96EC4A988D}</Project>
       <Name>DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DiscordBot\DiscordBot.csproj">
+      <Project>{3d5d504c-a8e6-4e22-a693-1f2afc5902d5}</Project>
+      <Name>DiscordBot</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

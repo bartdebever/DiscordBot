@@ -33,70 +33,70 @@ namespace DiscordBot.Modules
             
         }
 
-        [Command("Register")]
-        public async Task Register([Remainder, Summary("Username of the user wanting to register")] string username)
-        {
-            RootObject root = RequestHandler.GetUserByName(username);
-            User user = root.user;
-            Mock database = DatabaseManager.GetMock();
-            DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long) Context.User.Id);
-            if (atlasUser.SmashAccount.Username == null)
-            {
-                string validationstring = DatabaseManager.GenerateString();
-                SmashAccount account = new SmashAccount(user.username, validationstring, false);
-                atlasUser.SmashAccount = account;
-                DatabaseManager.GetMock().SaveChanges();
-                await ReplyAsync("Added your account!\nPlease set your status to be " + validationstring +
-                                 ".\nYou can do this by clicking on your own name and clicking the [Click here to edit your status message]");
-            }
-            else
-            {
-                if (atlasUser.SmashAccount.Token.ToLower() == user.away_message.ToLower())
-                {
-                    atlasUser.SmashAccount.IsVerified = true;
-                    DatabaseManager.GetMock().SaveChanges();
-                    await ReplyAsync(
-                        "Successfully verified your account!.\nPeople can now use -user anther <@you> to see your account!");
-                }
+        //[Command("Register")]
+        //public async Task Register([Remainder, Summary("Username of the user wanting to register")] string username)
+        //{
+        //    RootObject root = RequestHandler.GetUserByName(username);
+        //    User user = root.user;
+        //    Mock database = DatabaseManager.GetMock();
+        //    DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long) Context.User.Id);
+        //    if (atlasUser.SmashAccount.Username == null)
+        //    {
+        //        string validationstring = DatabaseManager.GenerateString();
+        //        SmashAccount account = new SmashAccount(user.username, validationstring, false);
+        //        atlasUser.SmashAccount = account;
+        //        DatabaseManager.GetMock().SaveChanges();
+        //        await ReplyAsync("Added your account!\nPlease set your status to be " + validationstring +
+        //                         ".\nYou can do this by clicking on your own name and clicking the [Click here to edit your status message]");
+        //    }
+        //    else
+        //    {
+        //        if (atlasUser.SmashAccount.Token.ToLower() == user.away_message.ToLower())
+        //        {
+        //            atlasUser.SmashAccount.IsVerified = true;
+        //            DatabaseManager.GetMock().SaveChanges();
+        //            await ReplyAsync(
+        //                "Successfully verified your account!.\nPeople can now use -user anther <@you> to see your account!");
+        //        }
                 
-            }
-        }
+        //    }
+        //}
 
-        [Command("Update")]
-        public async Task Update()
-        {
-            Mock database = DatabaseManager.GetMock();
-            DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long)Context.User.Id);
-            var ranks = RequestHandler.GetRanksByName(atlasUser.SmashAccount.Username);
-            foreach (var rank in ranks)
-            {
-                IRole role = RoleAssignment.DynamicRole(rank, Context.Guild);
-                await (Context.User as IGuildUser).AddRoleAsync(role);
-            }
-            await ReplyAsync("Gave you your role!");
-        }
+        //[Command("Update")]
+        //public async Task Update()
+        //{
+        //    Mock database = DatabaseManager.GetMock();
+        //    DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long)Context.User.Id);
+        //    var ranks = RequestHandler.GetRanksByName(atlasUser.SmashAccount.Username);
+        //    foreach (var rank in ranks)
+        //    {
+        //        IRole role = RoleAssignment.DynamicRole(rank, Context.Guild);
+        //        await (Context.User as IGuildUser).AddRoleAsync(role);
+        //    }
+        //    await ReplyAsync("Gave you your role!");
+        //}
 
-        [Command("Ranks")]
-        public async Task Ranks()
-        {
-            Mock database = DatabaseManager.GetMock();
-            DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long)Context.User.Id);
-            var ranks = RequestHandler.GetRanksByName(atlasUser.SmashAccount.Username);
-            if (ranks.Count > 0)
-            {
-                string result = atlasUser.Name + "Anther's Ladder's rankings\n";
-                foreach (var rank in ranks)
-                {
-                    result += rank + "\n";
-                }
-                await ReplyAsync(result);
-            }
-            else
-            {
-                await ReplyAsync("You do not have any rankings");
-            }
+        //[Command("Ranks")]
+        //public async Task Ranks()
+        //{
+        //    Mock database = DatabaseManager.GetMock();
+        //    DiscordUser atlasUser = database.Users.FirstOrDefault(x => x.Discordid == (long)Context.User.Id);
+        //    var ranks = RequestHandler.GetRanksByName(atlasUser.SmashAccount.Username);
+        //    if (ranks.Count > 0)
+        //    {
+        //        string result = atlasUser.Name + "Anther's Ladder's rankings\n";
+        //        foreach (var rank in ranks)
+        //        {
+        //            result += rank + "\n";
+        //        }
+        //        await ReplyAsync(result);
+        //    }
+        //    else
+        //    {
+        //        await ReplyAsync("You do not have any rankings");
+        //    }
 
-        }
+        //}
 
         [Command("Games")]
         public async Task Games()
@@ -110,11 +110,11 @@ namespace DiscordBot.Modules
             await ReplyAsync("", embed:builder.Build());
         }
 
-        [Command("Character")]
-        public async Task Characters()
-        {
-            var characters = RequestHandler.GetCharacters();
-            await ReplyAsync(characters.Count.ToString());
-        }
+        //[Command("Character")]
+        //public async Task Characters()
+        //{
+        //    var characters = RequestHandler.GetCharacters();
+        //    await ReplyAsync(characters.Count.ToString());
+        //}
     }
 }

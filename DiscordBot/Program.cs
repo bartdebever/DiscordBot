@@ -11,15 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DiscordBot
 {
-    class Program
+    public class Program
     {
         // Program entry point
         static void Main(string[] args)
         {
-            Tests();
-                Console.WriteLine(OptionManager.DiscordKey);
-
-
+            //Tests()
             // Call the Program constructor, followed by the 
             // MainAsync method and wait until it finishes (which should be never).
             new Program().MainAsync().GetAwaiter().GetResult();
@@ -60,7 +57,7 @@ namespace DiscordBot
         private readonly IServiceCollection _map = new ServiceCollection();
         private readonly CommandService _commands = new CommandService();
 
-        private Program()
+        public Program()
         {
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -86,7 +83,7 @@ namespace DiscordBot
         // that ask for a Func<LogMessage, Task>.
 
 
-        private async Task MainAsync()
+        public async Task MainAsync()
         {
             // Centralize the logic for commands into a seperate method.
             await InitCommands();
