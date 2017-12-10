@@ -54,7 +54,7 @@ namespace DataLibrary.Static_Data
 
         public static void Initialize()
         {
-            using (StreamReader file = new StreamReader(@"C:\Users\Bort\source\repos\DiscordBot\DataLibrary\Configuration.json")) 
+            using (StreamReader file = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/Discordbot/Configuration.json")) 
             //TODO Make dynamic
             using (JsonTextReader reader = new JsonTextReader(file))
             {

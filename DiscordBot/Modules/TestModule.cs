@@ -53,14 +53,5 @@ namespace DiscordBot.Modules
             await ReplyAsync("Given the " + role + " to " + Context.User.Username);
         }
 
-        [Command("emote")]
-        public async Task Emote(ulong id)
-        {
-            var message = (RestUserMessage) await Context.Channel.GetMessageAsync(id);
-            foreach (var messageReaction in message.Reactions)
-            {
-                await ReplyAsync($"{messageReaction.Key.Name}: {messageReaction.Value.ReactionCount}");
-            }
-        }
     }
 }

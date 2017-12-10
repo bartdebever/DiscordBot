@@ -61,6 +61,7 @@ namespace DiscordBot
         private readonly IServiceCollection _map = new ServiceCollection();
         private readonly CommandService _commands = new CommandService();
 
+
         private Program()
         {
             _client = new DiscordSocketClient(new DiscordSocketConfig
@@ -86,16 +87,7 @@ namespace DiscordBot
 
         private Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> cacheable, ISocketMessageChannel socketMessageChannel, SocketReaction arg3)
         {
-            if ((arg3.Emote).Name == "🎉")
-            {
-                string message = arg3.User.Value.Username + ": reacted with " + "tada" + " on message: " +
-                                 arg3.MessageId;
-                if (arg3.Emote.Name != null)
-                {
-                    DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "ReactionBot", message));
-                }
-            }
-            
+            ReactionTracker.ReactionAdded(cacheable, socketMessageChannel,arg3);
             return Task.CompletedTask;
         }
 
@@ -118,8 +110,6 @@ namespace DiscordBot
 
         private IServiceProvider _services;
 
-        public List<string> EmoteInfo1 { get => EmoteInfo2; set => EmoteInfo2 = value; }
-        public List<string> EmoteInfo2 { get => EmoteInfo; set => EmoteInfo = value; }
 
         private async Task InitCommands()
         {

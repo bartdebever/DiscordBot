@@ -17,6 +17,7 @@ namespace WebUI.Controllers
             var users = database.Users.ToList();
             var user = users[0];
             return View(user);
+            
         }
     }
 }
