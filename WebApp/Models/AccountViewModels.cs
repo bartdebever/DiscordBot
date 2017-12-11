@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.Models
@@ -65,6 +66,9 @@ namespace WebApp.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Username")]
+        public string DisplayName { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +83,12 @@ namespace WebApp.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Display(Name="Join Date")]
+        public DateTime JoinDate { get; set; }
+        [Display(Name =  "Admin")]
+        public bool IsAdmin { get; set; }
+        [Display(Name = "DiscordName")]
+        public string DiscordName { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -1,0 +1,90 @@
+﻿@model DataLibrary.Champion
+
+@{
+    ViewBag.Title = "title";
+}
+<div class="container col-lg-3">
+    <h2>@Model.name General Info</h2>
+    @Html.LabelForModel("Name")
+    @Html.TextBoxFor(x=> x.name, new {@class = "form-control"})
+    <br/>
+    @Html.LabelForModel("Key")
+    @Html.TextBoxFor(x => x.key, new { @class = "form-control" })
+    <br />
+    @Html.LabelForModel("Title")
+    @Html.TextBoxFor(x => x.title, new { @class = "form-control" })
+    <br />
+    @Html.LabelForModel("Lore")
+    @Html.TextAreaFor(x => x.lore, new { @class = "form-control" , rows = "20" })
+    <br />
+    @Html.LabelForModel("Id")
+    @Html.TextBoxFor(x => x.Id, new { @class = "form-control" })
+    <br />
+    @Html.LabelForModel("ChampionId")
+    @Html.TextBoxFor(x => x.ChampionId, new { @class = "form-control" })
+    <br/>
+</div>
+<div class="container col-lg-3">
+    <h2>Skins</h2>
+    @{
+        int skincount = 0;
+    }
+    @foreach (var skin in Model.skins)
+    {
+        @Html.Label("Name", "Name")
+        @Html.TextBox("skin" + skincount, skin.name, new { @class = "form-control" })
+        skincount++;
+        <br/>
+    }
+</div>
+<div class="container col-lg-3">
+    <h2>Stats</h2>
+</div>
+<div class="container col-lg-3">
+    <h2>Passive</h2>
+    @{
+        var passive = Model.passive;
+    }
+    @Html.Label("Name", "Name")
+    @Html.TextBox("passiveName", passive.name, new {@class ="form-control"})
+    <br/>
+    @Html.Label("Description", "Description")
+    @Html.TextArea("passiveDescription", passive.description, new {@class ="form-control", rows = "10"})
+    <br/>
+</div>
+<div class="container col-lg-10"><h2>Skills</h2></div>
+@{
+    var skills = "QWER";
+}
+@for (int i = 0; i < skills.Length; i++)
+{
+    <div class="container col-lg-3">
+        <h3>@skills[i]</h3>
+        @Html.LabelForModel("Name")
+        @Html.TextBox("name" + skills[i], Model.spells[i].name, new { @class = "form-control" })
+        <br />
+        @Html.LabelForModel("Description")
+        @Html.TextArea("description" + skills[i], Model.spells[i].sanitizedDescription, new { @class = "form-control", rows = "10"})
+        <br />
+        @Html.LabelForModel("Tooltip")
+        @Html.TextArea("tooltip" + skills[i], Model.spells[i].sanitizedTooltip, new { @class = "form-control", rows = "10" })
+        <br />
+        @Html.LabelForModel("Cost Type")
+        @Html.TextArea("costType" + skills[i], Model.spells[i].costType, new { @class = "form-control" })
+        <br />
+        <h4>Vars</h4>
+        @if (Model.spells[i].vars != null)
+        {
+            foreach (var skillVar in Model.spells[i].vars)
+             {
+                 @Html.Label("varlabel", "Key")
+                 @Html.TextBox("var" + skills[i], skillVar.key, new {@class = "form-control"})
+                 <br/>
+                 @Html.Label("valuelabel", "Value")
+                 @Html.TextBox("value"+skills[i], skillVar.Coeff[0].value, new { @class = "form-control" });
+             }
+        }
+
+    </div>
+}
+
