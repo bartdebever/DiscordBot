@@ -47,7 +47,13 @@ namespace DiscordBot.Modules
                         //            $"{info}";
                         builder.AddInlineField(game.name, info);
                     }
+<<<<<<< Updated upstream
                     //builder.AddField("Events", gameInfo);
+=======
+                    builder.AddField("Events", gameInfo);
+                    builder.AddField("Streams",
+                        $"{root.entities.}");
+>>>>>>> Stashed changes
                     var image = tournament.images.FirstOrDefault(x => x.type == "profile");
                     if (image != null) builder.WithThumbnailUrl(image.url);
                     var banner = tournament.images.FirstOrDefault(x => x.type == "banner");
