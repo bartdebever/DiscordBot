@@ -167,6 +167,7 @@
     <Compile Include="Shop\ShopItems.cs" />
     <Compile Include="Static Data\DatabaseManager..cs" />
     <Compile Include="Static Data\ColorPicker.cs" />
+    <Compile Include="Static Data\DiscordManager.cs" />
     <Compile Include="Static Data\Names.cs" />
     <Compile Include="Static Data\OptionManager.cs" />
     <Compile Include="Static Data\ReactionTracker.cs" />

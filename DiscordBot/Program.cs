@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using DataLibrary;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
@@ -9,6 +10,7 @@ using Discord.WebSocket;
 using DiscordBot.Loggers;
 using DiscordBot.Modules;
 using Microsoft.Extensions.DependencyInjection;
+using RiotWrapper.DataTypes;
 
 namespace DiscordBot
 {
@@ -18,9 +20,6 @@ namespace DiscordBot
         static void Main(string[] args)
         {
             Tests();
-                Console.WriteLine(OptionManager.DiscordKey);
-
-
             // Call the Program constructor, followed by the 
             // MainAsync method and wait until it finishes (which should be never).
             new Program().MainAsync().GetAwaiter().GetResult();
@@ -28,7 +27,7 @@ namespace DiscordBot
         private static void Tests()
         {
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Database", "Starting Database Check"));
-            if (DatabaseManager.GetMock() != null)
+            if (DatabaseManager.GetMock().Servers != null && new RiotData().Items != null)
             {
                 DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Database", "Success"));
             }
@@ -51,7 +50,25 @@ namespace DiscordBot
                 Console.ReadLine();
             }
             DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Starting API Connection Check"));
-            DefaultLogger.Logger(new LogMessage(LogSeverity.Error, "Riot API", "Not implemented"));
+            try
+            {
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Requesting BortTheBeaver on EUW"));
+                var riotClient = new RiotWrapper.RiotClient(OptionManager.RiotKey);
+                var account = riotClient.Summoner.GetSummonerByName("BortTheBeaver", Platforms.EUW1);
+                if (account == null)
+                {
+                    DefaultLogger.Logger(new LogMessage(LogSeverity.Critical, "Riot API",
+                        "Failed to get a response from the API"));
+                    Console.ReadLine();
+                }
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Info, "Riot API", "Riot API connection verified"));
+            }
+            catch
+            {
+                DefaultLogger.Logger(new LogMessage(LogSeverity.Critical, "Riot API",
+                    "Connection failed please check your connection string"));
+                Console.ReadLine();
+            }
         }
 
         private readonly DiscordSocketClient _client;
@@ -60,7 +77,6 @@ namespace DiscordBot
         // These two types require you install the Discord.Net.Commands package.
         private readonly IServiceCollection _map = new ServiceCollection();
         private readonly CommandService _commands = new CommandService();
-
 
         private Program()
         {
@@ -83,6 +99,8 @@ namespace DiscordBot
             _client.Log += DefaultLogger.Logger;
             _commands.Log += DefaultLogger.Logger;
             _client.ReactionAdded += ClientOnReactionAdded;
+            DiscordManager.Client = _client;
+            DiscordManager.Commands = _commands;
         }
 
         private Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> cacheable, ISocketMessageChannel socketMessageChannel, SocketReaction arg3)

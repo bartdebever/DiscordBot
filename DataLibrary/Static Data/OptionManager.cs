@@ -51,11 +51,11 @@ namespace DataLibrary.Static_Data
                 return smashHash;
             }
         }
-
+        
         public static void Initialize()
         {
             using (StreamReader file = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/Discordbot/Configuration.json")) 
-            //TODO Make dynamic
+            //TODO if not found > Make file
             using (JsonTextReader reader = new JsonTextReader(file))
             {
                 JObject ob = (JObject)JToken.ReadFrom(reader);
