@@ -1,6 +1,11 @@
-﻿body {
-    padding-top: 50px;
+﻿:root {
+    --background-gray: /*#e5e7ea*/ #E0FFFF;
+}
+
+body {
+    padding-top: 62px;
     padding-bottom: 20px;
+    background-color: var(--background-gray);
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +26,100 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+/*NAVBAR BEGIN*/
+.navbar-default {
+    font-size: 1.15em;
+    font-weight: 400;
+    /*#006b96*/
+    color: black;
+    background-color: var(--background-gray);
+    padding: 10px;
+    border: 0px;
+    border-radius: 0px;
+    /*border-bottom: 1px solid black;*/
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: black;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #cbf0ff;
+}
+
+.navbar-default .navbar-brand {
+    color: black;
+    font-size: 150%
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #ffffff;
+    text-shadow: 1px -1px 8px #b3e9ff;
+}
+
+    .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+        background-color: #2e44e8;
+        color: white;
+    }
+
+.navbar-default .navbar-toggle {
+    border: none;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border: none;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #2e44e8;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+
+.dropdown-menu {
+    background-color: #004059;
+    color: white;
+    border: 0px;
+    border-radius: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.dropdown-menu>li>a {
+    background-color: #004059;
+    color: white;
+}
+
+    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+        background-color: #2e44e8;
+        color: white;
+    }
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #003246;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a {
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .dropdown-menu > li > a {
+        background-color: #2e44e8;
+        color: #ffffff;
+    }
+
+    .dropdown-menu > li > a:hover { color: #ffffff; }
+}
+/*NAVBAR END*/
+
+.table-solid td {
+    border: 1px solid black !important;
 }

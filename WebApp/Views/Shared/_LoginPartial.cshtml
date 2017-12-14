@@ -1,18 +1,29 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApp.Models
 @if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        string username = User.Identity.GetUserName().ToString();
-    @Html.AntiForgeryToken()
-
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + new ApplicationDbContext().Users.FirstOrDefault(x=> x.UserName == username).DisplayName  + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                string username = User.Identity.GetUserName().ToString();
+                string name = new ApplicationDbContext().Users.FirstOrDefault(x => x.UserName == username).DisplayName;
+            @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> Coins<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://www.google.ch" target="_blank">My Items</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="http://www.google.ch" target="_blank">Buy Creids</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @name <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://www.fgruber.ch/" target="_blank"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> User Settings</a></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
     }
 }
 else
