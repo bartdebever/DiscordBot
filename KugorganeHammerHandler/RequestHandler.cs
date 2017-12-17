@@ -27,7 +27,7 @@ namespace KugorganeHammerHandler
 
     public static class RequestBuilder
     {
-        private static Uri BaseUri => new Uri("http://api.kuroganehammer.com");
+        private static Uri BaseUri => new Uri("http://beta-api-kuroganehammer.azurewebsites.net");
         private static string CharacterEndpoint => "api/characters/";
         private static string Movement => "movements/";
         private static string MovementEndpoint => "api/movements/";
