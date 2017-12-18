@@ -65,20 +65,34 @@ namespace DiscordBot.Modules
             public async Task GetMove(string charactername, [Remainder] string moveName)
             {
                 Discord.EmbedBuilder builder = null;
+                var character = RequestHandler.GetCharacterName(charactername);
                 var moves = RequestHandler.GetMoves(charactername);
                 Move move = null;
                 move = moves.FirstOrDefault(x=> x.Name.ToLower().Equals(moveName.ToLower()));
                 if (move == null) move = moves.FirstOrDefault(x => x.Name.ToLower().Contains(moveName.ToLower()));
                 if (move != null)
                 {
-                    builder = Builders.BaseBuilder("", "", Color.DarkBlue, new EmbedAuthorBuilder().WithName(move.Name), "");
+                    builder = Builders.BaseBuilder("", "", Color.DarkBlue, new EmbedAuthorBuilder().WithName(character.Name +  " | " +move.Name).WithUrl("http://kuroganehammer.com/smash4/"+move.Owner), character.ThumbnailURL);
                     string statistics = "";
                     if (!string.IsNullOrEmpty(move.MoveType)) statistics += "**Move Type:** " + move.MoveType + "\n";
-                    if (!string.IsNullOrEmpty(move.BaseDamage)) statistics += "**Base Knockback:** " + move.BaseDamage + "\n";
-                    if (!string.IsNullOrEmpty(move.BaseKockbackSetKnockback)) statistics += "**Base-, Set-Knockback: **" + move.BaseKockbackSetKnockback + "\n";
-                    if (!string.IsNullOrEmpty(move.LandingLag)) statistics += "**Landinglag: **" + move.LandingLag + "\n";
+                    if (!string.IsNullOrEmpty(move.BaseDamage)) statistics += "**Base Damage:** " + move.BaseDamage + "%\n";
+                    if (!string.IsNullOrEmpty(move.BaseKockbackSetKnockback)) statistics += "**Base/Set Knockback: **" + move.BaseKockbackSetKnockback + "\n";
+                    if (!string.IsNullOrEmpty(move.LandingLag)) statistics += "**Landinglag: **" + move.LandingLag + " frames\n";
+                    if (!string.IsNullOrEmpty(move.HitboxActive)) statistics += "**Hitbox Active: **Frames " + move.HitboxActive + "\n";
+                    if (!string.IsNullOrEmpty(move.KnockbackGrowth)) statistics += "**Knockback Growth: **" + move.HitboxActive + "\n";
+                    if (!string.IsNullOrEmpty(move.Angle)) statistics += "**Angle: **" + move.Angle.Replace("361", "Sakuari Angle/361") + "\n";
+                    if (!string.IsNullOrEmpty(move.AutoCancel)) statistics += "**Auto-Cancel: **Frame " + move.AutoCancel.Replace("&gt;", ">") + "\n";
+                    if (!string.IsNullOrEmpty(move.FirstActionableFrame)) statistics += "**First Actionable Frame: **" + move.FirstActionableFrame + "\n";
                     builder.AddInlineField("Statistics",
                     statistics);
+                    if (move.Angle.Equals("361"))
+                    {
+                        builder.AddInlineField("Sakurai Angle",
+                            "\"The Sakurai angle (sometimes displayed as * in moveset lists) is a special knockback behavior that many attacks use. While it reads in the game data as an angle of 361 degrees, the actual resulting angle is dependent on whether the victim is on the ground or in the air, as well as the strength of the knockback.\"\nSource: https://www.ssbwiki.com/Sakurai_angle");
+                    }
+                    
+                    builder.AddField("Info",
+                        "If you don't understand the values please visit http://kuroganehammer.com/Glossary");
                 }
                 await ReplyAsync("", embed: builder.Build());
             }
