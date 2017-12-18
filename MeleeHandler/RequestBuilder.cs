@@ -9,10 +9,19 @@ namespace MeleeHandler
 {
     public static class RequestBuilder
     {
-        public static string GetCharacter(int id)
+        public static string GetCharacter()
         {
             var client = new RestClient(new Uri("http://smashlounge.com/api"));
-            string characterendpoint = $"chars/{id}";
+            string characterendpoint = $"chars/all";
+            var request = new RestRequest(characterendpoint, Method.GET);
+            var json = client.Execute(request);
+            return json.Content;
+        }
+
+        public static string GetTechniques()
+        {
+            var client = new RestClient(new Uri("http://smashlounge.com/api"));
+            string characterendpoint = $"techs/all";
             var request = new RestRequest(characterendpoint, Method.GET);
             var json = client.Execute(request);
             return json.Content;

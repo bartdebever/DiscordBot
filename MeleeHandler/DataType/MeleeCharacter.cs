@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MeleeHandler.DataType;
 
 namespace MeleeHandler
 {
@@ -16,5 +17,6 @@ namespace MeleeHandler
         public string walljump { get; set; }
         public string guide { get; set; }
         public int game { get; set; }
+        public List<SmashLoungeGif> gifs { get; set; }
     }
 }

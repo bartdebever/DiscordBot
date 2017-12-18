@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using DiscordBot.EmbedBuilder;
+using DiscordBot.Loggers;
 using KugorganeHammerHandler;
 using KugorganeHammerHandler.Data_Types;
 
@@ -45,19 +46,50 @@ namespace DiscordBot.Modules
                     info2 += $"**{movement.Attributes[i+half].Name}**: {movement.Attributes[i+half].Value}\n";
                 }
                 builder.AddInlineField("Movement", info1);
-                builder.AddInlineField("Information", info2);
+                builder.AddInlineField("Movement", info2);
                 string movesinfo = "";
                 string specials = "";
+                int specialcount = 0;
                 string aerials = "";
+                string smashes = "";
+                string grabs = "";
+                string tilts = "";
                 moves.ForEach(x =>
                 {
-                    if (x.MoveType == "ground") movesinfo += x.Name + "\n";
-                    if (x.MoveType == "special") specials += x.Name + "\n";
+                    if (x.MoveType == "ground")
+                    {
+                        if (x.Name.Contains("smash"))
+                        {
+                            smashes += x.Name + "\n";
+                        }
+                        else if (x.Name.Contains("tilt"))
+                        {
+                            tilts += x.Name + "\n";
+                        }
+                        else if (x.Name.ToLower().Contains("grab"))
+                        {
+                            grabs += x.Name + "\n";
+                        }
+                        else
+                        {
+                            movesinfo += x.Name + "\n";
+                        }
+                    }
+
+                    if (x.MoveType == "special")
+                    {
+                            specials += x.Name + "\n";
+                            specialcount++;
+                        
+                    }
                     if (x.MoveType == "aerial") aerials += x.Name + "\n";
                 });
                 builder.AddInlineField("Ground Moves", movesinfo);
+                builder.AddInlineField("Smashes", smashes);
                 builder.AddInlineField("Specials", specials);
                 builder.AddInlineField("Aerials", aerials);
+                builder.AddInlineField("Tilts", tilts);
+                builder.AddInlineField("Grabs", tilts);
                 await ReplyAsync("", embed: builder.Build());
             }
 
@@ -74,6 +106,7 @@ namespace DiscordBot.Modules
                 {
                     builder = Builders.BaseBuilder("", "", Color.DarkBlue, new EmbedAuthorBuilder().WithName(character.Name +  " | " +move.Name).WithUrl("http://kuroganehammer.com/smash4/"+move.Owner), character.ThumbnailURL);
                     string statistics = "";
+                    //builder.WithImageUrl("https://zippy.gfycat.com/EuphoricCookedHornshark.webm"); //TODO Add later when gifs are supported but holy shit it works.
                     if (!string.IsNullOrEmpty(move.MoveType)) statistics += "**Move Type:** " + move.MoveType + "\n";
                     if (!string.IsNullOrEmpty(move.BaseDamage)) statistics += "**Base Damage:** " + move.BaseDamage + "%\n";
                     if (!string.IsNullOrEmpty(move.BaseKockbackSetKnockback)) statistics += "**Base/Set Knockback: **" + move.BaseKockbackSetKnockback + "\n";
@@ -101,40 +134,10 @@ namespace DiscordBot.Modules
         [Group("Melee")]
         public class Melee : ModuleBase
         {
-            [Command("")]
+            [Command("character")]
             public async Task GetCharacter([Remainder] string name)
             {
-                var characters = new List<string>()
-                {
-                    "Bowser",
-                    "Captain Falcon",
-                    "Donkey Kong",
-                    "Dr. Mario",
-                    "Falco",
-                    "Fox",
-                    "Ganondorf",
-                    "Ice Climbers",
-                    "Jugglypuff",
-                    "Kirby",
-                    "Link",
-                    "Luigi",
-                    "Mario",
-                    "Marth",
-                    "Mewtwo",
-                    "Mr. Game And Watch",
-                    "Ness",
-                    "Peach",
-                    "Pichu",
-                    "Pikachu",
-                    "Roy",
-                    "Samus",
-                    "Sheik",
-                    "Yoshi",
-                    "Young Link",
-                    "Zelda"
-                };
-                var id = characters.IndexOf(name) + 1;
-                var character = MeleeHandler.RequestHandler.GetCharacter(id);
+                var character = MeleeHandler.RequestHandler.GetCharacter(name);
                 var builder = Builders.BaseBuilder("", "", Color.Teal,
                     new EmbedAuthorBuilder().WithName(character.name).WithIconUrl($"http://smashlounge.com/img/pixel/{character.name.Replace(" ","")}HeadSSBM.png"), "");
                 builder.AddField("Description", character.guide);
@@ -142,6 +145,40 @@ namespace DiscordBot.Modules
                                           $"**Weight: **{character.weight}\n" +
                                           $"**Fallspeed: **{character.fallspeed}\n" +
                                           $"**Can Walljump: **{Convert.ToBoolean(Int32.Parse(character.walljump))}");
+                if (character.gifs != null)
+                {
+                    foreach (var smashLoungeGif in character.gifs)
+                    {
+                        builder.AddInlineField(smashLoungeGif.Description,
+                            $"**Link: **https://zippy.gfycat.com/{smashLoungeGif.Url}.webm \n" +
+                            $"**Source: **{smashLoungeGif.Source}\n");
+                    }
+                }
+                await ReplyAsync("", embed: builder.Build());
+            }
+
+            [Command("tech")]
+            public async Task GetTech([Remainder] string name)
+            {
+                var tech = MeleeHandler.RequestHandler.GetTechnique(name);
+                var builder = Builders.BaseBuilder("", "", Color.Teal, new EmbedAuthorBuilder().WithName(tech.TechName),
+                    "");
+                builder.AddField("Information",
+                    $"**Description: **{tech.Description}\n" +
+                    $"**Inputs: **{tech.Inputs}\n" +
+                    $"**SmashWiki Link: **{tech.SmashWikiLink}");
+                if (tech.Gifs != null)
+                {
+                    builder.WithImageUrl($"https://zippy.gfycat.com/{tech.Gifs[0].Url}.gif");
+                    foreach (var gif in tech.Gifs)
+                    {
+                        string source = "";
+                        if (!string.IsNullOrEmpty(gif.Source)) source = $"**Source: **{gif.Source}";
+                        builder.AddInlineField(gif.Description,
+                            $"**Link: **https://zippy.gfycat.com/{gif.Url}.webm \n" +source
+                            );
+                    }
+                }
                 await ReplyAsync("", embed: builder.Build());
             }
         }
