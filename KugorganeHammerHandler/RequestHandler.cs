@@ -23,6 +23,11 @@ namespace KugorganeHammerHandler
             var movements = JsonConvert.DeserializeObject<List<MovementAttribute>>(json);
             return new Movement(movements);
         }
+
+        public static List<Move> GetMoves(string name)
+        {
+            return JsonConvert.DeserializeObject<List<Move>>(RequestBuilder.GetMoves(name));
+        }
     }
 
     public static class RequestBuilder
@@ -44,6 +49,14 @@ namespace KugorganeHammerHandler
         {
             var client = new RestClient(BaseUri);
             var request = new RestRequest(CharacterEndpoint + "name/"+name+"/"+ Movement);
+            IRestResponse response = client.Execute(request);
+            return response.Content;
+        }
+
+        public static string GetMoves(string name)
+        {
+            var client = new RestClient(BaseUri);
+            var request = new RestRequest(CharacterEndpoint + "name/" + name + "/moves", Method.GET);
             IRestResponse response = client.Execute(request);
             return response.Content;
         }

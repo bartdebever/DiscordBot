@@ -7,6 +7,7 @@ using Discord;
 using Discord.Commands;
 using DiscordBot.EmbedBuilder;
 using KugorganeHammerHandler;
+using KugorganeHammerHandler.Data_Types;
 
 namespace DiscordBot.Modules
 {
@@ -16,14 +17,15 @@ namespace DiscordBot.Modules
         [Group("WiiU")]
         public class WiiU : ModuleBase
         {
-            [Command("")]
+            [Command("character")]
             public async Task GetCharacter([Remainder] string name)
             {
                 var character = RequestHandler.GetCharacterName(name);
+                var moves = RequestHandler.GetMoves(name);
                 Discord.EmbedBuilder builder = Builders.BaseBuilder("", "", Color.DarkTeal,
                     new EmbedAuthorBuilder().WithName("KuroganeHammer Result:").WithUrl("http://kuroganehammer.com"),
                     character.ThumbnailURL);
-                builder.WithImageUrl(character.MainImageURL);
+                //builder.WithImageUrl(character.MainImageURL);
                 builder.WithUrl(character.FullURL);
                 string info = "";
                 info += "**Name: **" + character.Name;
@@ -44,6 +46,40 @@ namespace DiscordBot.Modules
                 }
                 builder.AddInlineField("Movement", info1);
                 builder.AddInlineField("Information", info2);
+                string movesinfo = "";
+                string specials = "";
+                string aerials = "";
+                moves.ForEach(x =>
+                {
+                    if (x.MoveType == "ground") movesinfo += x.Name + "\n";
+                    if (x.MoveType == "special") specials += x.Name + "\n";
+                    if (x.MoveType == "aerial") aerials += x.Name + "\n";
+                });
+                builder.AddInlineField("Ground Moves", movesinfo);
+                builder.AddInlineField("Specials", specials);
+                builder.AddInlineField("Aerials", aerials);
+                await ReplyAsync("", embed: builder.Build());
+            }
+
+            [Command("Move")]
+            public async Task GetMove(string charactername, [Remainder] string moveName)
+            {
+                Discord.EmbedBuilder builder = null;
+                var moves = RequestHandler.GetMoves(charactername);
+                Move move = null;
+                move = moves.FirstOrDefault(x=> x.Name.ToLower().Equals(moveName.ToLower()));
+                if (move == null) move = moves.FirstOrDefault(x => x.Name.ToLower().Contains(moveName.ToLower()));
+                if (move != null)
+                {
+                    builder = Builders.BaseBuilder("", "", Color.DarkBlue, new EmbedAuthorBuilder().WithName(move.Name), "");
+                    string statistics = "";
+                    if (!string.IsNullOrEmpty(move.MoveType)) statistics += "**Move Type:** " + move.MoveType + "\n";
+                    if (!string.IsNullOrEmpty(move.BaseDamage)) statistics += "**Base Knockback:** " + move.BaseDamage + "\n";
+                    if (!string.IsNullOrEmpty(move.BaseKockbackSetKnockback)) statistics += "**Base-, Set-Knockback: **" + move.BaseKockbackSetKnockback + "\n";
+                    if (!string.IsNullOrEmpty(move.LandingLag)) statistics += "**Landinglag: **" + move.LandingLag + "\n";
+                    builder.AddInlineField("Statistics",
+                    statistics);
+                }
                 await ReplyAsync("", embed: builder.Build());
             }
         }

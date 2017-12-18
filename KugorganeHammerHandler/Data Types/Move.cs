@@ -10,7 +10,7 @@ namespace KugorganeHammerHandler.Data_Types
     public class Move
     {
         [JsonProperty("InstanceId")]
-        public long InstanceId { get; set; }
+        public string InstanceId { get; set; }
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("OwnerId")]
