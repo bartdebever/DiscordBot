@@ -24,15 +24,12 @@ namespace RiotWrapper.Helpers
             {
                 return Platforms.LA1;
             }
-            else if (region == "OCE")
+            else if (region == "oce")
             {
                 return Platforms.OC1;
             }
-
-
-            
             region = region + "1";
-            return (Platforms) Enum.Parse(typeof(Platforms), region);
+            return (Platforms) Enum.Parse(typeof(Platforms), region.ToUpper());
         }
     }
 }

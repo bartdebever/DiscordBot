@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using ChampionGGHandler;
+﻿using ChampionGGHandler;
 using DataLibrary;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using DiscordBot.EmbedBuilder;
 using RiotWrapper;
 using RiotWrapper.DataTypes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using RiotWrapper.Helpers;
 
 namespace DiscordBot.Modules
 {
@@ -218,8 +216,10 @@ namespace DiscordBot.Modules
         [Command("summoner")]
         public async Task Profile(string region, [Remainder] string summonerName)
         {
+            var message = await ReplyAsync("Getting data...");
             var riotClient = new RiotClient(OptionManager.RiotKey);
-            Platforms platform = (Platforms) Enum.Parse(typeof(Platforms), region.ToUpper());
+            Platforms platform = RiotWrapper.Helpers.PlatformHelper.StringToPlatform(region);
+            //Platforms platform = (Platforms) Enum.Parse(typeof(Platforms), region.ToUpper());
             var summoner = riotClient.Summoner.GetSummonerByName(summonerName,platform);
             var leagues = riotClient.League.GetPositionDto(platform, summoner.SummonerId);
             var masteries = riotClient.Masteries.GetchampionMasteries(platform, summoner.SummonerId);
@@ -229,9 +229,10 @@ namespace DiscordBot.Modules
                 $"http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/{summoner.ProfileIconId}.png");
             builder.AddInlineField($"Information", $"**Name: **{summoner.Name}\n**Region: **region\n**Level: **{summoner.SummonerLevel}");
             string rankings = "";
+            leagues.Reverse();
             foreach (var leaguePositionDto in leagues)
             {
-                rankings += $"**{leaguePositionDto.QueueType}: **{leaguePositionDto.Tier} {leaguePositionDto.Rank}\n";
+                rankings += $"**{RankedHelper.NormalizedQueue(leaguePositionDto.QueueType)}: **{leaguePositionDto.Tier.First().ToString().ToUpper() + leaguePositionDto.Tier.ToLower().Substring(1)} {leaguePositionDto.Rank}\n";
             }
             if (rankings == "") rankings = "Unranked";
             builder.AddInlineField($"Ranking", rankings);
@@ -250,6 +251,7 @@ namespace DiscordBot.Modules
             builder.AddInlineField("Champ3", "**Games: **X\n**Average Stats:** K/D/A\n**Winrate: **XX%");
             builder.AddInlineField("Champ4", "**Games: **X\n**Average Stats:** K/D/A\n**Winrate: **XX%");
             await ReplyAsync("", embed: builder.Build());
+            await message.DeleteAsync();
         }
 
         [Command("mastery")]
